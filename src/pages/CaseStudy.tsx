@@ -1,7 +1,16 @@
-import { useParams } from 'react-router'
+import type { ReactNode } from 'react'
+import { Link, useParams } from 'react-router'
+import { BeforeAfter } from '@/components/case/BeforeAfter'
+import { StatusFlow } from '@/components/case/StatusFlow'
+import { architectureDiagrams } from '@/components/case/diagrams'
 import { NotFoundView } from '@/components/NotFoundView'
+import { Facts } from '@/components/ui/Facts'
+import { ProjectLinks } from '@/components/ui/ProjectLinks'
+import { Shot } from '@/components/ui/Shot'
+import { TagList } from '@/components/ui/TagList'
 import { Todo } from '@/components/ui/Todo'
-import { findCaseStudy } from '@/data/projects'
+import { textLink } from '@/components/ui/styles'
+import { findCaseStudy, projects } from '@/data/projects'
 import { t } from '@/i18n'
 import { pageMeta } from '@/seo/meta'
 import type { Route } from './+types/CaseStudy'
@@ -24,20 +33,120 @@ export const meta = ({ params }: Route.MetaArgs) => {
   })
 }
 
+/** Bloco do estudo de caso: título na coluna da esquerda em telas largas. */
+function Block({ id, title, children }: { id: string; title: string; children: ReactNode }) {
+  return (
+    <section aria-labelledby={id} className="grid gap-6 border-t border-line py-12 lg:grid-cols-[13rem_1fr] lg:gap-12">
+      <h2 id={id} className="text-xl font-bold">
+        {title}
+      </h2>
+      <div className="min-w-0">{children}</div>
+    </section>
+  )
+}
+
 export default function CaseStudy() {
   const { slug } = useParams()
   const project = findCaseStudy(slug)
-  if (!project) return <NotFoundView />
+  if (!project?.caseStudy) return <NotFoundView />
+
+  const study = project.caseStudy
+  const [cover, ...screens] = study.gallery
+  const architecture = architectureDiagrams[project.slug]
+  const caseStudies = projects.filter((p) => p.caseStudy)
+  const next = caseStudies[(caseStudies.indexOf(project) + 1) % caseStudies.length]
 
   return (
-    <article className="container-page py-section" aria-labelledby="case-title">
-      <h1 id="case-title" className="text-3xl font-bold md:text-4xl">
-        {project.title}
-      </h1>
-      <p className="mt-4 max-w-prose text-lg text-muted">{project.summary}</p>
-      <div className="mt-10">
-        <Todo>estudo de caso completo (problema, antes/depois, arquitetura, destaques e prints) entra na Fase 4.</Todo>
-      </div>
+    <article aria-labelledby="case-title" className="container-page pb-8">
+      <header className="pt-10 pb-12 md:pt-14">
+        <Link to={{ pathname: '/', hash: '#projetos' }} className="text-sm text-muted underline-offset-4 hover:text-accent hover:underline">
+          {t.caseStudy.back}
+        </Link>
+        <h1 id="case-title" className="mt-6 text-3xl font-bold md:text-4xl">
+          {project.title}
+        </h1>
+        {project.context && <p className="mt-2 text-muted">{project.context}</p>}
+        <p className="mt-6 max-w-prose text-lg">{project.summary}</p>
+        <div className="mt-6">
+          <ProjectLinks project={project} caseStudy={false} />
+        </div>
+        <div className="mt-10 grid gap-8 lg:grid-cols-[2fr_3fr] lg:items-start">
+          <div className="space-y-6">
+            {project.facts && <Facts facts={project.facts} />}
+            <TagList items={project.stack} />
+          </div>
+          {cover && <Shot shot={cover} priority />}
+        </div>
+      </header>
+
+      <Block id="problema" title={t.caseStudy.problem}>
+        {study.problem ? <p className="max-w-prose">{study.problem}</p> : <Todo>{t.caseStudy.problemTodo}</Todo>}
+      </Block>
+
+      <Block id="antes-depois" title={t.caseStudy.beforeAfter}>
+        {study.beforeAfter.length > 0 ? <BeforeAfter rows={study.beforeAfter} /> : <Todo>{t.caseStudy.beforeAfterTodo}</Todo>}
+      </Block>
+
+      <Block id="quem-usa" title={t.caseStudy.roles}>
+        <dl className="grid gap-6 sm:grid-cols-2">
+          {study.roles.map((role) => (
+            <div key={role.role}>
+              <dt className="font-semibold">{role.role}</dt>
+              <dd className="mt-1 text-sm text-muted">{role.does}</dd>
+            </div>
+          ))}
+        </dl>
+      </Block>
+
+      <Block id="fluxo" title={t.caseStudy.flow}>
+        <StatusFlow steps={study.statusFlow} branch={study.statusBranch} />
+      </Block>
+
+      {architecture && (
+        <Block id="arquitetura" title={t.caseStudy.architecture}>
+          <figure className="m-0">
+            <div className="overflow-x-auto rounded-card border border-line bg-bg p-4">
+              <architecture.Diagram />
+            </div>
+            <figcaption className="mt-4 max-w-prose text-sm text-muted">
+              {architecture.caption} <span className="lg:hidden">{t.caseStudy.diagramHint}</span>
+            </figcaption>
+          </figure>
+        </Block>
+      )}
+
+      <Block id="destaques" title={t.caseStudy.highlights}>
+        <ul className="grid gap-x-10 gap-y-8 md:grid-cols-2">
+          {study.highlights.map((item) => (
+            <li key={item.title}>
+              <h3 className="font-semibold">{item.title}</h3>
+              <p className="mt-1 text-sm text-muted">{item.body}</p>
+            </li>
+          ))}
+        </ul>
+      </Block>
+
+      {screens.length > 0 && (
+        <Block id="telas" title={t.caseStudy.gallery}>
+          <p className="mb-6 text-sm text-muted">{t.caseStudy.galleryNote}</p>
+          <ul className="grid gap-6 md:grid-cols-2">
+            {screens.map((shot) => (
+              <li key={shot.alt}>
+                <Shot shot={shot} />
+              </li>
+            ))}
+          </ul>
+        </Block>
+      )}
+
+      {next && next !== project && (
+        <nav aria-label={t.caseStudy.next} className="border-t border-line pt-10">
+          <p className="text-sm text-muted">{t.caseStudy.next}</p>
+          <Link to={`/projetos/${next.slug}`} className={`${textLink} mt-1 inline-block text-xl`}>
+            {next.title}
+          </Link>
+        </nav>
+      )}
     </article>
   )
 }
