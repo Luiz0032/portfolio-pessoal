@@ -4,6 +4,24 @@
 import { readFile, stat } from 'node:fs/promises'
 import { createServer } from 'node:http'
 import { extname, join, normalize, resolve } from 'node:path'
+import { brotliCompressSync, constants, gzipSync } from 'node:zlib'
+
+// Como a Vercel, comprime texto com Brotli (ou gzip). Sem isso o Lighthouse mede tudo sem compressão.
+const COMPRESSIBLE = new Set(['.html', '.js', '.css', '.svg', '.json', '.webmanifest', '.xml', '.txt'])
+const cache = new Map()
+
+function compress(file, body, encoding) {
+  const key = `${encoding}:${file}`
+  if (!cache.has(key)) {
+    cache.set(
+      key,
+      encoding === 'br'
+        ? brotliCompressSync(body, { params: { [constants.BROTLI_PARAM_QUALITY]: 11 } })
+        : gzipSync(body, { level: 9 }),
+    )
+  }
+  return cache.get(key)
+}
 
 const types = {
   '.html': 'text/html; charset=utf-8',
@@ -43,8 +61,16 @@ export function serve(dir = 'dist/client', port = 4300) {
     const file = await findFile(root, req.url ?? '/')
     try {
       const body = await readFile(file)
-      res.writeHead(200, { 'content-type': types[extname(file)] ?? 'application/octet-stream' })
-      res.end(body)
+      const headers = { 'content-type': types[extname(file)] ?? 'application/octet-stream' }
+      const accepts = req.headers['accept-encoding'] ?? ''
+      const encoding = !COMPRESSIBLE.has(extname(file)) ? null : accepts.includes('br') ? 'br' : accepts.includes('gzip') ? 'gzip' : null
+      if (encoding) {
+        res.writeHead(200, { ...headers, 'content-encoding': encoding, vary: 'accept-encoding' })
+        res.end(compress(file, body, encoding))
+      } else {
+        res.writeHead(200, headers)
+        res.end(body)
+      }
     } catch {
       res.writeHead(404).end('não encontrado')
     }

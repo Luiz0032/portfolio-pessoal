@@ -36,3 +36,6 @@ dist-ssr
 # Gerados no build (scripts/sitemap.mjs)
 /public/sitemap.xml
 /public/robots.txt
+
+# Relatórios do Lighthouse
+.lighthouse/
