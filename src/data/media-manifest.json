@@ -1,4 +1,59 @@
 {
+  "avaliacao-colaboradores/colaboradores-convidados": {
+    "kind": "image",
+    "width": 1600,
+    "height": 1000,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "avaliacao-colaboradores/home": {
+    "kind": "image",
+    "width": 1600,
+    "height": 1000,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "avaliacao-colaboradores/home-escuro": {
+    "kind": "image",
+    "width": 1600,
+    "height": 1000,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "avaliacao-colaboradores/itens-avaliacao": {
+    "kind": "image",
+    "width": 1600,
+    "height": 1000,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "avaliacao-colaboradores/metas": {
+    "kind": "image",
+    "width": 1600,
+    "height": 1000,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
   "formulario-demo": {
     "kind": "video",
     "width": 1280,
@@ -11,6 +66,61 @@
     "kind": "image",
     "width": 1874,
     "height": 964,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "gestao-precontratos/historico": {
+    "kind": "image",
+    "width": 1600,
+    "height": 1000,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "gestao-precontratos/home": {
+    "kind": "image",
+    "width": 1600,
+    "height": 1000,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "gestao-precontratos/juridico": {
+    "kind": "image",
+    "width": 1600,
+    "height": 1000,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "gestao-precontratos/novo-precontrato": {
+    "kind": "image",
+    "width": 1600,
+    "height": 1000,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "gestao-precontratos/pendentes": {
+    "kind": "image",
+    "width": 1600,
+    "height": 1000,
     "widths": [
       480,
       800,

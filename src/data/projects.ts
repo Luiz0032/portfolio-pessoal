@@ -15,7 +15,7 @@ export const projects: Project[] = [
     stack: ['Power Apps', 'Power Fx', 'Power Automate', 'Dataverse', 'SharePoint', 'Word Online', 'Teams', 'API REST'],
     tier: 'powerPlatform',
     links: { code: 'https://github.com/Luiz0032/gestao-precontratos' },
-    image: { image: 'gestao-precontratos/home', alt: 'Tela inicial do app de pré-contratos, com indicadores e atalhos' },
+    image: { image: 'gestao-precontratos/home', alt: 'Tela inicial do app de pré-contratos, com contadores por status e a lista de pré-contratos recentes' },
     facts: [
       { label: 'Telas', value: '9' },
       { label: 'Componentes', value: '3' },
@@ -90,11 +90,25 @@ export const projects: Project[] = [
         },
       ],
       gallery: [
-        { image: 'gestao-precontratos/home', alt: 'Tela inicial com indicadores e atalhos' },
-        { image: 'gestao-precontratos/novo-precontrato', alt: 'Formulário de novo pré-contrato, com fornecedor, obra, condições e anexos' },
-        { image: 'gestao-precontratos/revisao-juridica', alt: 'Revisão jurídica com a prévia em PDF e as opções de aprovar ou pedir ajuste' },
-        { image: 'gestao-precontratos/pendentes', alt: 'Pendentes: rascunhos e itens com ajustes solicitados' },
-        { image: 'gestao-precontratos/historico', alt: 'Histórico de eventos de um pré-contrato' },
+        {
+          image: 'gestao-precontratos/home',
+          alt: 'Tela inicial com contadores de rascunhos, jurídico, aguardando assinatura e concluídos, e a lista de pré-contratos recentes',
+        },
+        {
+          image: 'gestao-precontratos/novo-precontrato',
+          alt: 'Início do formulário de novo pré-contrato: busca do cliente ou fornecedor e dados do representante legal',
+        },
+        { image: 'gestao-precontratos/juridico', alt: 'Fila do Jurídico com os pré-contratos enviados para revisão' },
+        // TODO: print da revisão com a prévia em PDF (media/shots/gestao-precontratos/revisao-juridica.png).
+        {
+          image: 'gestao-precontratos/revisao-juridica',
+          alt: 'Revisão jurídica com a prévia em PDF e as opções de aprovar ou pedir ajuste',
+        },
+        { image: 'gestao-precontratos/pendentes', alt: 'Pré-contratos pendentes, com busca por número, empresa ou obra e filtro por status' },
+        {
+          image: 'gestao-precontratos/historico',
+          alt: 'Histórico de movimentações com data, evento, status anterior, novo status e quem executou',
+        },
       ],
     },
   },
@@ -107,7 +121,7 @@ export const projects: Project[] = [
     stack: ['Power Apps', 'Power Fx', 'Named Formulas', 'Power Automate', 'SharePoint', 'Outlook', 'Office 365 Users'],
     tier: 'powerPlatform',
     links: { code: 'https://github.com/Luiz0032/avaliacao-colaboradores' },
-    image: { image: 'avaliacao-colaboradores/home', alt: 'Tela inicial do app de avaliação, com o status da avaliação do colaborador' },
+    image: { image: 'avaliacao-colaboradores/home', alt: 'Tela inicial do app de avaliação, com filtros e a lista de avaliações' },
     facts: [
       { label: 'Telas', value: '8' },
       { label: 'Componentes', value: '3' },
@@ -157,10 +171,22 @@ export const projects: Project[] = [
         },
       ],
       gallery: [
-        { image: 'avaliacao-colaboradores/home', alt: 'Tela inicial do colaborador com o status da avaliação' },
-        { image: 'avaliacao-colaboradores/metas', alt: 'Definição de metas com pesos, mostrando a validação da soma de 100%' },
+        {
+          image: 'avaliacao-colaboradores/home',
+          alt: 'Tela inicial com filtros por tipo de avaliação, status e ciclo, e a lista de avaliações',
+        },
+        { image: 'avaliacao-colaboradores/home-escuro', alt: 'A mesma tela inicial no tema escuro' },
+        {
+          image: 'avaliacao-colaboradores/colaboradores-convidados',
+          alt: 'Administração do ciclo: colaboradores que podem ser convidados, com e-mail, e o status dos convites ao lado',
+        },
+        {
+          image: 'avaliacao-colaboradores/itens-avaliacao',
+          alt: 'Administração do ciclo: itens avaliados em um ciclo de junho de 2026, com categorias como segurança e operação',
+        },
+        { image: 'avaliacao-colaboradores/metas', alt: 'Lista de metas de desempenho do colaborador' },
+        // TODO: print da autoavaliação (media/shots/avaliacao-colaboradores/autoavaliacao.png).
         { image: 'avaliacao-colaboradores/autoavaliacao', alt: 'Autoavaliação das competências na escala de 1 a 3' },
-        { image: 'avaliacao-colaboradores/admin', alt: 'Administração do ciclo: datas, competências e participantes' },
       ],
     },
   },
