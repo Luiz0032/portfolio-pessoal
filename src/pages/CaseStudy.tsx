@@ -112,7 +112,7 @@ export default function CaseStudy() {
             <div
               tabIndex={0}
               role="region"
-              aria-label={t.caseStudy.architecture}
+              aria-label={t.caseStudy.diagramRegion}
               className="overflow-x-auto rounded-card border border-line bg-bg p-4"
             >
               <architecture.Diagram />

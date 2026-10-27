@@ -85,6 +85,7 @@ export const ptBR = {
     flow: 'Fluxo do processo',
     architecture: 'Arquitetura',
     diagramHint: 'Em telas estreitas, arraste o diagrama para o lado.',
+    diagramRegion: 'Diagrama de arquitetura',
     highlights: 'Destaques técnicos',
     gallery: 'Telas',
     galleryNote: 'Prints com dados fictícios.',
