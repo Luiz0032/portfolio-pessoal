@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "ask": [
+      "Bash(git push)",
+      "Bash(git push *)",
+      "Bash(vercel *--prod*)",
+      "Bash(npx vercel *--prod*)",
+      "Bash(vercel promote*)",
+      "Bash(npx vercel promote*)",
+      "PowerShell(git push)",
+      "PowerShell(git push *)",
+      "PowerShell(vercel *--prod*)",
+      "PowerShell(npx vercel *--prod*)",
+      "PowerShell(vercel promote*)",
+      "PowerShell(npx vercel promote*)",
+      "mcp__plugin_vercel_vercel__request_promote"
+    ]
+  }
+}
