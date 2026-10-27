@@ -7,7 +7,7 @@ const linkClass = 'inline-flex items-center gap-2 text-muted transition-colors h
 
 export function Footer() {
   return (
-    <footer className="mt-section border-t border-line">
+    <footer className="mt-section border-t border-line print:hidden">
       <div className="container-page flex flex-col gap-6 py-10 md:flex-row md:items-center md:justify-between">
         <p className="text-sm text-muted">
           <span className="font-semibold text-ink">{profile.name}</span>

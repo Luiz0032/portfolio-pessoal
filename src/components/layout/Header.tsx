@@ -20,7 +20,7 @@ export function Header() {
   }, [])
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-bg/90 backdrop-blur supports-[backdrop-filter]:bg-bg/80">
+    <header className="sticky top-0 z-40 print:hidden border-b border-line bg-bg/90 backdrop-blur supports-[backdrop-filter]:bg-bg/80">
       <div className="container-page flex h-16 items-center justify-between gap-4">
         <Link to="/" className="font-bold tracking-tight" onClick={() => close(false)}>
           {profile.shortName}

@@ -90,6 +90,17 @@ export const ptBR = {
     galleryNote: 'Prints com dados fictícios.',
     next: 'Próximo estudo de caso',
   },
+  resume: {
+    print: 'Imprimir ou salvar em PDF',
+    printHint: 'No diálogo de impressão, escolha “Salvar como PDF”.',
+    summary: 'Resumo',
+    experience: 'Experiência',
+    experienceTodo:
+      'empresas, cargos, períodos e responsabilidades da experiência profissional (o briefing não traz esses dados).',
+    projects: 'Projetos selecionados',
+    education: 'Formação',
+    skills: 'Habilidades',
+  },
   skills: {
     title: 'Habilidades',
     intro: 'Tecnologias que uso em projetos, agrupadas por área.',
