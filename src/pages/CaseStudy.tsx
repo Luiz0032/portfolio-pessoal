@@ -17,7 +17,7 @@ export const meta = ({ params }: Route.MetaArgs) => {
     })
   }
   return pageMeta({
-    title: `${project.title}: estudo de caso · ${t.meta.titleSuffix}`,
+    title: `${project.title}, ${t.meta.caseStudySuffix} · ${t.meta.titleSuffix}`,
     description: project.summary,
     path: `/projetos/${project.slug}`,
     type: 'article',

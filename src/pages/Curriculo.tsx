@@ -6,7 +6,7 @@ import { pageMeta } from '@/seo/meta'
 export const meta = () =>
   pageMeta({
     title: `${t.nav.resume} · ${t.meta.titleSuffix}`,
-    description: `Currículo de ${profile.name}: ${profile.role}.`,
+    description: t.meta.resumeDescription,
     path: '/curriculo',
     type: 'profile',
   })
