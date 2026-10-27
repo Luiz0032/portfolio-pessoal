@@ -10,7 +10,8 @@
     "preview": "vite preview --outDir dist/client",
     "typecheck": "react-router typegen && tsc -b",
     "images": "node scripts/images.mjs",
-    "icons": "node scripts/icons.mjs"
+    "icons": "node scripts/icons.mjs",
+    "og:data": "node scripts/og-pages.mjs"
   },
   "dependencies": {
     "@fontsource-variable/schibsted-grotesk": "^5.3.0",

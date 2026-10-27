@@ -30,6 +30,7 @@ export const meta = ({ params }: Route.MetaArgs) => {
     description: project.summary,
     path: `/projetos/${project.slug}`,
     type: 'article',
+    ogImage: `projeto-${project.slug}`,
   })
 }
 

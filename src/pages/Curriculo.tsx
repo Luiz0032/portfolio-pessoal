@@ -14,6 +14,7 @@ export const meta = () =>
     description: t.meta.resumeDescription,
     path: '/curriculo',
     type: 'profile',
+    ogImage: 'curriculo',
   })
 
 const display = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')

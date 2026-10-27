@@ -1,0 +1,126 @@
+<!doctype html>
+<!--
+  Template das imagens de Open Graph (1200×630). Servido a partir da raiz do projeto e aberto como
+  /scripts/og/template.html?page=<chave>; os textos vêm de scripts/og/pages.json (npm run og:data).
+-->
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Open Graph</title>
+    <style>
+      @font-face {
+        font-family: 'Schibsted Grotesk';
+        font-weight: 400 900;
+        src: url('/node_modules/@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2') format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: 'Schibsted Grotesk';
+        font-weight: 400 900;
+        src: url('/node_modules/@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-ext-wght-normal.woff2') format('woff2');
+      }
+      :root {
+        --bg: #0f1b22;
+        --surface: #15252e;
+        --ink: #e3eaee;
+        --muted: #9aabb5;
+        --line: #27404c;
+        --accent: #5cc2b8;
+      }
+      * { box-sizing: border-box; margin: 0; }
+      html, body { width: 1200px; height: 630px; overflow: hidden; }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: 'Schibsted Grotesk', system-ui, sans-serif;
+        padding: 64px 72px;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+      header { display: flex; align-items: center; justify-content: space-between; }
+      .brand { display: flex; align-items: center; gap: 16px; font-size: 24px; font-weight: 600; }
+      .chip { font-size: 22px; font-weight: 600; color: var(--accent); border: 2px solid var(--accent); border-radius: 999px; padding: 6px 18px; }
+      main { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 22px; }
+      h1 { font-size: 76px; line-height: 1.02; letter-spacing: -0.03em; font-weight: 700; }
+      .case h1 { font-size: 70px; }
+      .subtitle { font-size: 30px; line-height: 1.35; color: var(--muted); max-width: 1000px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+      .home .subtitle { color: var(--accent); font-weight: 500; }
+      footer { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; font-size: 22px; color: var(--muted); }
+      .flow { display: flex; align-items: center; gap: 10px; }
+      .flow span { background: var(--surface); border: 1.5px solid var(--line); border-radius: 10px; padding: 10px 14px; font-size: 19px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+      .flow span.key { border-color: var(--accent); color: var(--accent); }
+      .flow i { color: var(--muted); font-style: normal; font-size: 20px; }
+      .facts { display: flex; gap: 44px; }
+      .facts div { display: flex; flex-direction: column; }
+      .facts strong { font-size: 52px; line-height: 1; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+      .facts small { font-size: 19px; margin-top: 6px; max-width: 170px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        <svg width="52" height="52" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="7" fill="#15252e" stroke="#27404c" />
+          <path d="M8.5 9v14H14M16.5 9 20 23l3.5-14" fill="none" stroke="#5cc2b8" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span id="brand-name"></span>
+      </div>
+      <span class="chip" id="chip" hidden></span>
+    </header>
+    <main>
+      <h1 id="title"></h1>
+      <p class="subtitle" id="subtitle"></p>
+    </main>
+    <footer>
+      <div id="footer-left"></div>
+      <div id="domain"></div>
+    </footer>
+
+    <script type="module">
+      const key = new URLSearchParams(location.search).get('page')
+      const data = await (await fetch('./pages.json')).json()
+      const page = data.pages.find((p) => p.key === key)
+      if (!page) throw new Error(`Página de OG desconhecida: ${key}`)
+
+      const $ = (id) => document.getElementById(id)
+      document.body.className = page.kind
+      $('title').textContent = page.title
+      $('subtitle').textContent = page.subtitle
+      $('domain').textContent = data.domain
+      $('brand-name').textContent = page.kind === 'home' ? 'Portfólio' : data.name
+
+      const left = $('footer-left')
+      if (page.kind === 'home') {
+        // Assinatura do site: o ciclo de pré-contratos do hero, em uma linha.
+        const steps = ['CNPJ', 'Minuta', 'PDF', 'Revisão jurídica', 'Teams', 'Histórico']
+        left.className = 'flow'
+        steps.forEach((step, i) => {
+          if (i) left.insertAdjacentHTML('beforeend', '<i>→</i>')
+          const el = document.createElement('span')
+          el.textContent = step
+          if (step === 'Revisão jurídica') el.className = 'key'
+          left.append(el)
+        })
+      } else if (page.kind === 'case') {
+        $('chip').hidden = false
+        $('chip').textContent = 'Estudo de caso'
+        left.className = 'facts'
+        for (const fact of page.facts) {
+          const el = document.createElement('div')
+          el.innerHTML = '<strong></strong><small></small>'
+          el.querySelector('strong').textContent = fact.value
+          el.querySelector('small').textContent = fact.label
+          left.append(el)
+        }
+      } else {
+        $('chip').hidden = false
+        $('chip').textContent = 'Curitiba, PR'
+        left.textContent = 'luizfernandostremevogel@gmail.com · github.com/Luiz0032'
+      }
+
+      await document.fonts.ready
+      document.body.dataset.ready = 'true'
+    </script>
+  </body>
+</html>
