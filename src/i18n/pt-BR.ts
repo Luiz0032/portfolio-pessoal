@@ -82,7 +82,7 @@ export const ptBR = {
   contact: {
     title: 'Contato',
     body: 'Para conversar sobre uma vaga ou um projeto, escreva para o meu e-mail ou me chame no LinkedIn.',
-    email: 'E-mail',
+    sendEmail: 'Enviar e-mail',
     resume: 'Ver currículo',
   },
 }

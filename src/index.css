@@ -128,6 +128,40 @@
   }
 }
 
+/*
+ * Única animação automática do site: o diagrama do hero se monta em sequência (--i = ordem).
+ * Com movimento reduzido, o diagrama aparece pronto.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .flow-in {
+    opacity: 0;
+    animation: flow-in 0.4s ease-out forwards;
+    animation-delay: calc(var(--i, 0) * 0.2s + 0.15s);
+  }
+}
+@keyframes flow-in {
+  to { opacity: 1; }
+}
+
+/* Impressão do currículo: sempre claro, sem cabeçalho, rodapé e botões. */
+@media print {
+  :root,
+  :root[data-theme='dark'] {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --ink: #000000;
+    --muted: #333333;
+    --line: #cccccc;
+    --line-strong: #999999;
+    --accent: #0a6b66;
+    --accent-ink: #ffffff;
+    --accent-soft: transparent;
+    color-scheme: light;
+  }
+  body { font-size: 10.5pt; }
+  @page { margin: 14mm 16mm; }
+}
+
 @utility container-page {
   margin-inline: auto;
   max-width: var(--container-page);

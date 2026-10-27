@@ -1,18 +1,29 @@
 export type ProjectTier = 'powerPlatform' | 'featured' | 'other'
 
-export type ImageRef = { src: string; alt: string }
+/**
+ * Print ou imagem de um projeto. Sem `src`, a página mostra um placeholder no tamanho final
+ * com o `alt` como descrição do print que falta (TODO).
+ */
+export type Shot = {
+  src?: string
+  alt: string
+  width?: number
+  height?: number
+}
 
 export type CaseStudy = {
   /** Texto do problema. Ausente → a página mostra um TODO. */
   problem?: string
   beforeAfter: { before: string; after: string }[]
-  /** Etapas do processo, na ordem, para o diagrama de status. */
-  statusFlow?: string[]
+  /** Caminho principal do processo, na ordem. */
+  statusFlow: string[]
+  /** Desvio que volta para uma etapa anterior (ex.: ajustes pedidos na revisão). */
+  statusBranch?: { from: string; state: string; backTo: string; label: string }
   /** Quem usa e o que faz. */
-  roles?: { role: string; does: string }[]
+  roles: { role: string; does: string }[]
   highlights: { title: string; body: string }[]
-  /** Prints com dados fictícios. Vazio → placeholders com TODO. */
-  gallery: ImageRef[]
+  /** Telas mostradas na galeria (com dados fictícios). */
+  gallery: Shot[]
 }
 
 export type Project = {
@@ -28,8 +39,8 @@ export type Project = {
   year?: string
   /** Repositórios privados não têm `code`. */
   links: { code?: string; demo?: string }
-  /** Sem imagem, o card mostra um placeholder com TODO visível. */
-  image?: ImageRef
+  /** Imagem do card. Sem `src`, vira placeholder com TODO. */
+  image?: Shot
   /** Só números conferidos no repositório. */
   facts?: { label: string; value: string }[]
   caseStudy?: CaseStudy

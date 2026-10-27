@@ -51,14 +51,13 @@ export const projects: Project[] = [
           after: 'Post automático no canal do Teams da obra, com menção ao Jurídico',
         },
       ],
-      statusFlow: [
-        'Rascunho',
-        'Enviado ao Jurídico',
-        'Em revisão jurídica',
-        'Ajustes solicitados',
-        'Aguardando assinatura',
-        'Concluído',
-      ],
+      statusFlow: ['Rascunho', 'Enviado ao Jurídico', 'Em revisão jurídica', 'Aguardando assinatura', 'Concluído'],
+      statusBranch: {
+        from: 'Em revisão jurídica',
+        state: 'Ajustes solicitados',
+        backTo: 'Enviado ao Jurídico',
+        label: 'o Jurídico pede correção e o Comercial reenvia',
+      },
       roles: [
         { role: 'Comercial', does: 'Cadastra o fornecedor, preenche o pré-contrato e envia ao Jurídico.' },
         { role: 'Jurídico', does: 'Revisa a prévia em PDF, aprova ou pede ajustes com o motivo.' },
@@ -89,7 +88,13 @@ export const projects: Project[] = [
           body: 'Toda mudança de status gera um registro com quem, quando, o quê e o motivo.',
         },
       ],
-      gallery: [],
+      gallery: [
+        { alt: 'Tela inicial com indicadores e atalhos' },
+        { alt: 'Formulário de novo pré-contrato, com fornecedor, obra, condições e anexos' },
+        { alt: 'Revisão jurídica com a prévia em PDF e as opções de aprovar ou pedir ajuste' },
+        { alt: 'Pendentes: rascunhos e itens com ajustes solicitados' },
+        { alt: 'Histórico de eventos de um pré-contrato' },
+      ],
     },
   },
   {
@@ -149,7 +154,12 @@ export const projects: Project[] = [
           body: 'Loading, estado vazio e diálogo de confirmação com confirmação automática por tempo.',
         },
       ],
-      gallery: [],
+      gallery: [
+        { alt: 'Tela inicial do colaborador com o status da avaliação' },
+        { alt: 'Definição de metas com pesos, mostrando a validação da soma de 100%' },
+        { alt: 'Autoavaliação das competências na escala de 1 a 3' },
+        { alt: 'Administração do ciclo: datas, competências e participantes' },
+      ],
     },
   },
   {
@@ -171,6 +181,12 @@ export const projects: Project[] = [
     tier: 'featured',
     year: '2025',
     links: { code: 'https://github.com/Luiz0032/Fomulario' },
+    image: {
+      src: '/projects/formulario-demo.gif',
+      alt: 'Demonstração do formulário: campos de nome, e-mail e telefone e, abaixo, um cliente cadastrado com botão de excluir.',
+      width: 1874,
+      height: 964,
+    },
   },
   {
     slug: 'gerenciador-tarefas',
