@@ -4,6 +4,12 @@ export type Theme = 'light' | 'dark'
 
 const STORAGE_KEY = 'tema'
 
+/**
+ * Script do <head> (src/root.tsx) que aplica o tema antes da pintura. Usa a mesma chave e a mesma
+ * regra de readSaved(): só 'light' ou 'dark' contam como escolha; qualquer outro valor segue o sistema.
+ */
+export const themeScript = `(function(){var s=null;try{s=localStorage.getItem(${JSON.stringify(STORAGE_KEY)})}catch(e){}if(s!=='light'&&s!=='dark')s=null;var d=s?s==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=d?'dark':'light'})()`
+
 function readSaved(): Theme | null {
   try {
     const value = localStorage.getItem(STORAGE_KEY)

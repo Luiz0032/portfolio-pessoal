@@ -35,7 +35,7 @@ function Picture({ name, entry, alt, sizes, priority }: { name: string; entry: I
 }
 
 /** Vídeo curto em loop. Mostra o pôster até chegar perto da tela; com movimento reduzido, fica só no pôster. */
-function LoopVideo({ name, alt, sizes }: { name: string; alt: string; sizes: string }) {
+function LoopVideo({ name, alt, sizes, priority }: { name: string; alt: string; sizes: string; priority?: boolean }) {
   const video = getVideo(name)!
   const poster = getImage(video.poster)!
   const reduced = useReducedMotion()
@@ -67,7 +67,7 @@ function LoopVideo({ name, alt, sizes }: { name: string; alt: string; sizes: str
           <source src={video.mp4} type="video/mp4" />
         </video>
       ) : (
-        <Picture name={video.poster} entry={poster} alt={alt} sizes={sizes} />
+        <Picture name={video.poster} entry={poster} alt={alt} sizes={sizes} priority={priority} />
       )}
     </div>
   )
@@ -78,7 +78,7 @@ export function Shot({ shot, sizes = '100vw', className = '', priority }: Props)
   if (getVideo(shot.video)) {
     return (
       <div className={`${frame} bg-surface ${className}`}>
-        <LoopVideo name={shot.video!} alt={shot.alt} sizes={sizes} />
+        <LoopVideo name={shot.video!} alt={shot.alt} sizes={sizes} priority={priority} />
       </div>
     )
   }

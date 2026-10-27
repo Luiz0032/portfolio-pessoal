@@ -1,9 +1,9 @@
 // Servidor estático para testes locais do build, imitando a Vercel:
-// arquivo > pasta/index.html > __spa-fallback.html (rotas sem prerender, como a 404).
+// arquivo > pasta/index.html > 404.html com status 404.
 
 import { readFile, stat } from 'node:fs/promises'
 import { createServer } from 'node:http'
-import { extname, join, normalize, resolve } from 'node:path'
+import { extname, isAbsolute, join, normalize, relative, resolve } from 'node:path'
 import { brotliCompressSync, constants, gzipSync } from 'node:zlib'
 
 // Como a Vercel, comprime texto com Brotli (ou gzip). Sem isso o Lighthouse mede tudo sem compressão.
@@ -40,35 +40,44 @@ const types = {
   '.txt': 'text/plain; charset=utf-8',
 }
 
+/** Arquivo pedido (ou pasta/index.html). `null` se não existir ou se o caminho sair da raiz. */
 async function findFile(root, urlPath) {
-  const clean = normalize(decodeURIComponent(urlPath.split('?')[0])).replace(/^[/\\]+/, '')
+  let clean
+  try {
+    clean = normalize(decodeURIComponent(urlPath.split('?')[0])).replace(/^[/\\]+/, '')
+  } catch {
+    return null // URL malformada
+  }
   for (const candidate of [clean, join(clean, 'index.html')]) {
     const full = join(root, candidate)
-    if (!full.startsWith(root)) continue
+    const rel = relative(root, full)
+    if (rel.startsWith('..') || isAbsolute(rel)) continue
     try {
       if ((await stat(full)).isFile()) return full
     } catch {
       // tenta o próximo
     }
   }
-  return join(root, '__spa-fallback.html')
+  return null
 }
 
-/** Sobe o servidor e devolve { url, close }. */
+/** Sobe o servidor e devolve { url, close }. Endereços inexistentes recebem 404.html com status 404. */
 export function serve(dir = 'dist/client', port = 4300) {
   const root = resolve(dir)
   const server = createServer(async (req, res) => {
-    const file = await findFile(root, req.url ?? '/')
     try {
+      const found = await findFile(root, req.url ?? '/')
+      const file = found ?? join(root, '404.html')
+      const status = found ? 200 : 404
       const body = await readFile(file)
       const headers = { 'content-type': types[extname(file)] ?? 'application/octet-stream' }
       const accepts = req.headers['accept-encoding'] ?? ''
       const encoding = !COMPRESSIBLE.has(extname(file)) ? null : accepts.includes('br') ? 'br' : accepts.includes('gzip') ? 'gzip' : null
       if (encoding) {
-        res.writeHead(200, { ...headers, 'content-encoding': encoding, vary: 'accept-encoding' })
+        res.writeHead(status, { ...headers, 'content-encoding': encoding, vary: 'accept-encoding' })
         res.end(compress(file, body, encoding))
       } else {
-        res.writeHead(200, headers)
+        res.writeHead(status, headers)
         res.end(body)
       }
     } catch {

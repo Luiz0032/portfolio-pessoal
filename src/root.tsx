@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router'
 import { AppShell } from '@/components/layout/AppShell'
+import { themeScript } from '@/hooks/useTheme'
 import { RouteError } from '@/pages/RouteError'
 import './index.css'
 import fontLatin from '@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2?url'
@@ -8,8 +9,6 @@ import fontLatin from '@fontsource-variable/schibsted-grotesk/files/schibsted-gr
 // Pré-carrega a fonte do texto (subconjunto latino): evita a troca tardia que atrasa o LCP e desloca o layout.
 export const links = () => [{ rel: 'preload', href: fontLatin, as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' }]
 
-// Aplica o tema antes da pintura: escolha salva > preferência do sistema.
-const themeScript = `(function(){var s=null;try{s=localStorage.getItem('tema')}catch(e){}var d=s?s==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=d?'dark':'light'})()`
 
 export function Layout({ children }: { children: ReactNode }) {
   return (

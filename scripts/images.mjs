@@ -45,8 +45,11 @@ async function isFresh(output, source) {
   }
 }
 
-/** AVIF e WebP em cada largura até a do original (nunca amplia). */
-async function responsive(input, key, produced) {
+/**
+ * AVIF e WebP em cada largura até a do original (nunca amplia).
+ * `source` é o arquivo original usado para saber se a saída está atualizada (no pôster, o vídeo).
+ */
+async function responsive(input, key, produced, source = input) {
   const { width, height } = await sharp(input).metadata()
   const widths = WIDTHS.filter((w) => w < width)
   widths.push(Math.min(width, WIDTHS.at(-1)))
@@ -57,7 +60,7 @@ async function responsive(input, key, produced) {
     ]) {
       const out = join(paths.img, `${key}-${w}.${format}`)
       produced.add(out)
-      if (typeof input === 'string' && (await isFresh(out, input))) continue
+      if (await isFresh(out, source)) continue
       await mkdir(dirname(out), { recursive: true })
       await sharp(input).resize({ width: w }).toFormat(format, options).toFile(out)
     }
@@ -81,10 +84,14 @@ async function video(input, key, produced) {
     await run(ffmpegPath, ['-y', '-i', input, '-vf', scale, '-c:v', 'libvpx-vp9', '-crf', '38', '-b:v', '0', '-row-mt', '1', '-an', webm])
   }
 
-  // Pôster: primeiro quadro, também em versões responsivas.
-  const firstFrame = await sharp(input, { pages: 1 }).png().toBuffer()
+  // Pôster: primeiro quadro extraído pelo ffmpeg (funciona para GIF, MP4 e MOV), em versões responsivas.
+  const { stdout: firstFrame } = await run(
+    ffmpegPath,
+    ['-loglevel', 'error', '-i', input, '-frames:v', '1', '-f', 'image2pipe', '-vcodec', 'png', '-'],
+    { encoding: 'buffer', maxBuffer: 1 << 28 },
+  )
   const posterKey = `${key}-poster`
-  const poster = await responsive(firstFrame, posterKey, produced)
+  const poster = await responsive(firstFrame, posterKey, produced, input)
   const width = Math.min(poster.width, VIDEO_MAX_WIDTH)
   const height = Math.round((poster.height * width) / poster.width / 2) * 2
   const sizes = await Promise.all([mp4, webm].map(async (f) => (await stat(f)).size))

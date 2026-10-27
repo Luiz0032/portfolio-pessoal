@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react'
-import { Link } from 'react-router'
+import { Link, useLocation } from 'react-router'
 import { profile } from '@/data/profile'
 import { t } from '@/i18n'
 import { CloseIcon, MenuIcon } from '@/components/ui/Icons'
@@ -11,11 +11,15 @@ import { navItems } from './navItems'
 const MENU_ID = 'menu-mobile'
 
 export function Header() {
-  const [open, setOpen] = useState(false)
+  // O menu fica aberto só na navegação em que foi aberto: qualquer mudança de página
+  // (link fora do menu, voltar do navegador) o fecha sem precisar de efeito.
+  const location = useLocation()
+  const [openAt, setOpenAt] = useState<string | null>(null)
+  const open = openAt === location.key
   const menuButton = useRef<HTMLButtonElement>(null)
 
   const close = useCallback((returnFocus: boolean) => {
-    setOpen(false)
+    setOpenAt(null)
     if (returnFocus) menuButton.current?.focus()
   }, [])
 
@@ -47,7 +51,7 @@ export function Header() {
             aria-expanded={open}
             aria-controls={MENU_ID}
             aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
-            onClick={() => setOpen((value) => !value)}
+            onClick={() => setOpenAt(open ? null : location.key)}
             className="inline-flex size-10 items-center justify-center rounded-full border border-line-strong bg-surface md:hidden"
           >
             {open ? <CloseIcon /> : <MenuIcon />}
