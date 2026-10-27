@@ -1,0 +1,21 @@
+{
+  "formulario-demo": {
+    "kind": "video",
+    "width": 1280,
+    "height": 658,
+    "mp4": "/media/formulario-demo.mp4",
+    "webm": "/media/formulario-demo.webm",
+    "poster": "formulario-demo-poster"
+  },
+  "formulario-demo-poster": {
+    "kind": "image",
+    "width": 1874,
+    "height": 964,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  }
+}
