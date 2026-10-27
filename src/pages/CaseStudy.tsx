@@ -105,7 +105,13 @@ export default function CaseStudy() {
       {architecture && (
         <Block id="arquitetura" title={t.caseStudy.architecture}>
           <figure className="m-0">
-            <div className="overflow-x-auto rounded-card border border-line bg-bg p-4">
+            {/* Focável para rolar pelo teclado quando o diagrama é mais largo que a tela. */}
+            <div
+              tabIndex={0}
+              role="region"
+              aria-label={t.caseStudy.architecture}
+              className="overflow-x-auto rounded-card border border-line bg-bg p-4"
+            >
               <architecture.Diagram />
             </div>
             <figcaption className="mt-4 max-w-prose text-sm text-muted">

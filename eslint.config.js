@@ -27,6 +27,9 @@ export default defineConfig([
         'error',
         { allowExportNames: ['meta', 'links', 'Layout', 'ErrorBoundary', 'HydrateFallback'] },
       ],
+      // Áreas com rolagem horizontal (diagramas, tabelas) precisam de foco para rolar pelo teclado
+      // (WCAG 2.1.1; regra scrollable-region-focusable do axe). Elas usam role="region" com aria-label.
+      'jsx-a11y/no-noninteractive-tabindex': ['error', { roles: ['tabpanel', 'region'] }],
     },
   },
 ])

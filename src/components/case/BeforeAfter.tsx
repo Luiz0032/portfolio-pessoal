@@ -2,7 +2,8 @@ import type { CaseStudy } from '@/data/types'
 
 export function BeforeAfter({ rows }: { rows: CaseStudy['beforeAfter'] }) {
   return (
-    <div className="overflow-x-auto rounded-card border border-line">
+    // Focável para rolar pelo teclado em telas estreitas.
+    <div tabIndex={0} role="region" aria-label="Antes e depois" className="overflow-x-auto rounded-card border border-line">
       <table className="w-full min-w-[34rem] border-collapse text-left text-sm">
         <caption className="sr-only">Como o processo era antes do app e como ficou depois</caption>
         <thead className="bg-bg">
