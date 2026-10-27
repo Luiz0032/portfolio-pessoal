@@ -1,18 +1,17 @@
-import { Outlet, ScrollRestoration } from 'react-router'
+import type { ReactNode } from 'react'
 import { Footer } from './Footer'
 import { Header } from './Header'
 import { SkipLink } from './SkipLink'
 
-export function Layout() {
+export function AppShell({ children }: { children: ReactNode }) {
   return (
     <>
       <SkipLink />
       <Header />
       <main id="conteudo" tabIndex={-1} className="outline-none">
-        <Outlet />
+        {children}
       </main>
       <Footer />
-      <ScrollRestoration />
     </>
   )
 }

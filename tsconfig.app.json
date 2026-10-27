@@ -17,6 +17,8 @@
     "jsx": "react-jsx",
     "strict": true,
     "paths": { "@/*": ["./src/*"] },
+    /* Tipos gerados pelo React Router (import type { Route } from './+types/...') */
+    "rootDirs": [".", "./.react-router/types"],
 
     /* Linting */
     "noUnusedLocals": true,
@@ -24,5 +26,5 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src", ".react-router/types/**/*"]
 }

@@ -1,6 +1,7 @@
 import { profile } from '@/data/profile'
 import { t } from '@/i18n'
 import { Todo } from '@/components/ui/Todo'
+import { pageMeta } from '@/seo/meta'
 
 // Estrutura da home com as âncoras do menu. Hero e seções ganham conteúdo nas Fases 3 e 4.
 const sections = [
@@ -10,10 +11,17 @@ const sections = [
   { id: 'contato', title: t.nav.contact },
 ]
 
-export function Home() {
+export const meta = () =>
+  pageMeta({
+    title: `${t.meta.siteTitle} · Desenvolvedor full-stack`,
+    description: `Portfólio de ${profile.name}, ${profile.role}, em ${profile.location}.`,
+    path: '/',
+    type: 'profile',
+  })
+
+export default function Home() {
   return (
     <>
-      <title>{`${t.meta.siteTitle} · Desenvolvedor full-stack`}</title>
       <section className="container-page py-section" aria-labelledby="hero-title">
         <h1 id="hero-title" className="text-3xl font-bold md:text-4xl">
           {profile.name}

@@ -1,17 +1,36 @@
 import { useParams } from 'react-router'
+import { NotFoundView } from '@/components/NotFoundView'
+import { Todo } from '@/components/ui/Todo'
 import { findCaseStudy } from '@/data/projects'
 import { t } from '@/i18n'
-import { Todo } from '@/components/ui/Todo'
-import { NotFound } from './NotFound'
+import { pageMeta } from '@/seo/meta'
+import type { Route } from './+types/CaseStudy'
+
+export const meta = ({ params }: Route.MetaArgs) => {
+  const project = findCaseStudy(params.slug)
+  if (!project) {
+    return pageMeta({
+      title: `${t.notFound.title} · ${t.meta.titleSuffix}`,
+      description: t.notFound.body,
+      path: `/projetos/${params.slug}`,
+      noindex: true,
+    })
+  }
+  return pageMeta({
+    title: `${project.title}: estudo de caso · ${t.meta.titleSuffix}`,
+    description: project.summary,
+    path: `/projetos/${project.slug}`,
+    type: 'article',
+  })
+}
 
 export default function CaseStudy() {
   const { slug } = useParams()
   const project = findCaseStudy(slug)
-  if (!project) return <NotFound />
+  if (!project) return <NotFoundView />
 
   return (
     <article className="container-page py-section" aria-labelledby="case-title">
-      <title>{`${project.title} · ${t.meta.titleSuffix}`}</title>
       <h1 id="case-title" className="text-3xl font-bold md:text-4xl">
         {project.title}
       </h1>

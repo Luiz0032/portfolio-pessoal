@@ -47,3 +47,7 @@ export const projects: Project[] = [
 
 export const findCaseStudy = (slug: string | undefined) =>
   projects.find((project) => project.slug === slug && project.caseStudy)
+
+/** Caminhos dos estudos de caso, usados pelo prerender em react-router.config.ts. */
+export const caseStudyPaths = () =>
+  projects.filter((project) => project.caseStudy).map((project) => `/projetos/${project.slug}`)

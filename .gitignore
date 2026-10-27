@@ -29,3 +29,6 @@ dist-ssr
 
 # Prints e logs do Playwright MCP
 .playwright-mcp/
+
+# React Router (tipos gerados)
+/.react-router/
