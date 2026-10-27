@@ -11,6 +11,8 @@ export const projects: Project[] = [
     title: 'Gestão de Pré-Contratos',
     summary:
       'App que digitaliza o ciclo de pré-contratos de fornecedores: cadastro por CNPJ, minuta gerada do modelo corporativo, revisão jurídica com ajustes e reenvio, aviso no Teams e histórico auditável.',
+    metaDescription:
+      'Estudo de caso: app em Power Platform que digitaliza pré-contratos de fornecedores, do cadastro por CNPJ à revisão jurídica, com aviso no Teams.',
     context: 'Projeto corporativo para uma empresa do setor de engenharia.',
     stack: ['Power Apps', 'Power Fx', 'Power Automate', 'Dataverse', 'SharePoint', 'Word Online', 'Teams', 'API REST'],
     tier: 'powerPlatform',
@@ -117,6 +119,8 @@ export const projects: Project[] = [
     title: 'Avaliação de Colaboradores',
     summary:
       'App de avaliação de desempenho para RH: o administrador abre o ciclo, o colaborador define metas com pesos e faz a autoavaliação, o gestor avalia o time e a nota final é calibrada.',
+    metaDescription:
+      'Estudo de caso: app de avaliação de desempenho em Power Apps, com metas com pesos, autoavaliação, avaliação do gestor e calibração da nota.',
     context: 'Roda inteiro no Microsoft 365, sem licença premium.',
     stack: ['Power Apps', 'Power Fx', 'Named Formulas', 'Power Automate', 'SharePoint', 'Outlook', 'Office 365 Users'],
     tier: 'powerPlatform',

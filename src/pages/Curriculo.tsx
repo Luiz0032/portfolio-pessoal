@@ -7,6 +7,7 @@ import { siteUrl } from '@/data/site'
 import { skills } from '@/data/skills'
 import { t } from '@/i18n'
 import { pageMeta } from '@/seo/meta'
+import { personSchema } from '@/seo/schema'
 
 export const meta = () =>
   pageMeta({
@@ -15,6 +16,7 @@ export const meta = () =>
     path: '/curriculo',
     type: 'profile',
     ogImage: 'curriculo',
+    jsonLd: [personSchema()],
   })
 
 const display = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')

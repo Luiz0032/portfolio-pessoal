@@ -11,10 +11,12 @@ type PageMeta = {
   noindex?: boolean
   /** Chave da imagem em public/og/<chave>.png (gerada a partir de scripts/og/). */
   ogImage?: string
+  /** Blocos JSON-LD (src/seo/schema.ts). */
+  jsonLd?: object[]
 }
 
-/** Title, description, canonical, Open Graph e Twitter Card de uma página. */
-export function pageMeta({ title, description, path, type = 'website', noindex, ogImage = 'home' }: PageMeta): MetaDescriptor[] {
+/** Title, description, canonical, Open Graph, Twitter Card e JSON-LD de uma página. */
+export function pageMeta({ title, description, path, type = 'website', noindex, ogImage = 'home', jsonLd = [] }: PageMeta): MetaDescriptor[] {
   const url = `${siteUrl}${path}`
   const image = `${siteUrl}/og/${ogImage}.png`
   return [
@@ -37,5 +39,6 @@ export function pageMeta({ title, description, path, type = 'website', noindex, 
     { name: 'twitter:description', content: description },
     { name: 'twitter:image', content: image },
     ...(noindex ? [{ name: 'robots', content: 'noindex' }] : []),
+    ...jsonLd.map((data) => ({ 'script:ld+json': data })),
   ]
 }

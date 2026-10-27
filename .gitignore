@@ -32,3 +32,7 @@ dist-ssr
 
 # React Router (tipos gerados)
 /.react-router/
+
+# Gerados no build (scripts/sitemap.mjs)
+/public/sitemap.xml
+/public/robots.txt

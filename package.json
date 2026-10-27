@@ -5,13 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "react-router dev",
-    "build": "react-router typegen && tsc -b && react-router build",
+    "build": "react-router typegen && tsc -b && node scripts/sitemap.mjs && react-router build",
     "lint": "eslint . --max-warnings 0",
     "preview": "vite preview --outDir dist/client",
     "typecheck": "react-router typegen && tsc -b",
     "images": "node scripts/images.mjs",
     "icons": "node scripts/icons.mjs",
-    "og:data": "node scripts/og-pages.mjs"
+    "og:data": "node scripts/og-pages.mjs",
+    "sitemap": "node scripts/sitemap.mjs",
+    "test:seo": "node scripts/check-seo.mjs"
   },
   "dependencies": {
     "@fontsource-variable/schibsted-grotesk": "^5.3.0",

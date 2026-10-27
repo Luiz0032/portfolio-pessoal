@@ -13,6 +13,7 @@ import { textLink } from '@/components/ui/styles'
 import { findCaseStudy, projects } from '@/data/projects'
 import { t } from '@/i18n'
 import { pageMeta } from '@/seo/meta'
+import { caseStudySchema } from '@/seo/schema'
 import type { Route } from './+types/CaseStudy'
 
 export const meta = ({ params }: Route.MetaArgs) => {
@@ -27,10 +28,11 @@ export const meta = ({ params }: Route.MetaArgs) => {
   }
   return pageMeta({
     title: `${project.title}, ${t.meta.caseStudySuffix} · ${t.meta.titleSuffix}`,
-    description: project.summary,
+    description: project.metaDescription ?? project.summary,
     path: `/projetos/${project.slug}`,
     type: 'article',
     ogImage: `projeto-${project.slug}`,
+    jsonLd: [caseStudySchema(project)],
   })
 }
 

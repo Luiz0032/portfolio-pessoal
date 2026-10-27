@@ -31,6 +31,8 @@ export type Project = {
   title: string
   /** Uma ou duas frases para o card. */
   summary: string
+  /** Description da página do estudo de caso (até 160 caracteres). */
+  metaDescription?: string
   /** Contexto curto: para quem ou por que o projeto existe. */
   context?: string
   stack: string[]
