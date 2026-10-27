@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { PrintButton } from '@/components/PrintButton'
-import { experience, independent, languages, type Experience } from '@/data/experience'
+import { experience, independent, languages, printPhone, type Experience } from '@/data/experience'
 import { projects } from '@/data/projects'
 import { profile } from '@/data/profile'
 import { siteUrl } from '@/data/site'
@@ -56,10 +56,10 @@ export default function Curriculo() {
   const selected = projects.filter((p) => p.tier === 'powerPlatform' || p.tier === 'featured')
   const contacts = [
     { label: profile.contacts.email, href: `mailto:${profile.contacts.email}` },
-    { label: profile.contacts.phone.display, href: profile.contacts.phone.href },
+    { label: printPhone.display, href: printPhone.href, printOnly: true },
     { label: display(profile.contacts.linkedin), href: profile.contacts.linkedin },
     { label: display(profile.contacts.github), href: profile.contacts.github },
-    { label: display(siteUrl), href: siteUrl },
+    { label: display(siteUrl), href: siteUrl, printOnly: true },
   ]
 
   return (
@@ -81,7 +81,7 @@ export default function Curriculo() {
           <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-sm text-muted">
             <li>{profile.location}</li>
             {contacts.map((contact) => (
-              <li key={contact.href}>
+              <li key={contact.href} className={contact.printOnly ? 'print-only' : undefined}>
                 <a href={contact.href} className="underline-offset-4 hover:text-accent hover:underline">
                   {contact.label}
                 </a>

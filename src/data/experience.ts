@@ -47,6 +47,12 @@ export const independent: Experience[] = [
   },
 ]
 
+/**
+ * Telefone: só na impressão do /curriculo (classe print-only). Fica neste módulo, que só a página
+ * de currículo importa, para não entrar no JavaScript das outras rotas. Nunca vai para o JSON-LD.
+ */
+export const printPhone = { display: '(47) 99910-0032', href: 'tel:+5547999100032' }
+
 export const languages = [
   { language: 'Inglês', level: 'intermediário' },
   { language: 'Espanhol', level: 'intermediário' },

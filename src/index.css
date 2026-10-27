@@ -143,6 +143,14 @@
   to { opacity: 1; }
 }
 
+/* Visível só no papel/PDF (ex.: telefone e endereço do site no currículo). */
+@utility print-only {
+  display: none;
+  @media print {
+    display: revert;
+  }
+}
+
 /* Impressão do currículo: sempre claro, sem cabeçalho, rodapé e botões. */
 @media print {
   :root,
