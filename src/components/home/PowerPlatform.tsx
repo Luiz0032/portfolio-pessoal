@@ -20,6 +20,7 @@ export function PowerPlatform() {
           >
             <Shot
               shot={project.image ?? { alt: `Tela inicial do app ${project.title}, com dados fictícios` }}
+              sizes="(min-width: 1024px) 34rem, 92vw"
               className={index % 2 === 1 ? 'lg:order-2' : ''}
             />
             <div className="min-w-0">

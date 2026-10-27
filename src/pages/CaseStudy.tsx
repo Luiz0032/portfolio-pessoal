@@ -75,7 +75,7 @@ export default function CaseStudy() {
             {project.facts && <Facts facts={project.facts} />}
             <TagList items={project.stack} />
           </div>
-          {cover && <Shot shot={cover} priority />}
+          {cover && <Shot shot={cover} priority sizes="(min-width: 1024px) 40rem, 92vw" />}
         </div>
       </header>
 
@@ -138,7 +138,7 @@ export default function CaseStudy() {
           <ul className="grid gap-6 md:grid-cols-2">
             {screens.map((shot) => (
               <li key={shot.alt}>
-                <Shot shot={shot} />
+                <Shot shot={shot} sizes="(min-width: 1024px) 28rem, (min-width: 768px) 46vw, 92vw" />
               </li>
             ))}
           </ul>

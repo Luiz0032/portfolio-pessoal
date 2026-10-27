@@ -16,6 +16,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "strict": true,
+    "resolveJsonModule": true,
     "paths": { "@/*": ["./src/*"] },
     /* Tipos gerados pelo React Router (import type { Route } from './+types/...') */
     "rootDirs": [".", "./.react-router/types"],

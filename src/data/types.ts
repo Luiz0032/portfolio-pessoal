@@ -1,14 +1,14 @@
 export type ProjectTier = 'powerPlatform' | 'featured' | 'other'
 
 /**
- * Print ou imagem de um projeto. Sem `src`, a página mostra um placeholder no tamanho final
- * com o `alt` como descrição do print que falta (TODO).
+ * Print ou vídeo de um projeto, pelo nome no manifesto de mídia (ex.: 'gestao-precontratos/home'
+ * para media/shots/gestao-precontratos/home.png). Se o arquivo ainda não existe, a página mostra
+ * um placeholder no tamanho final com o `alt` como descrição do print que falta (TODO).
  */
 export type Shot = {
-  src?: string
+  image?: string
+  video?: string
   alt: string
-  width?: number
-  height?: number
 }
 
 export type CaseStudy = {

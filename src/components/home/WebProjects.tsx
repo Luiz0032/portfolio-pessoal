@@ -14,7 +14,10 @@ export function WebProjects() {
         {projects.map((project) => (
           <li key={project.slug}>
             <article aria-labelledby={`web-${project.slug}`} className="flex h-full flex-col gap-5">
-              <Shot shot={project.image ?? { alt: `Página principal de ${project.title}` }} />
+              <Shot
+                shot={project.image ?? { alt: `Página principal de ${project.title}` }}
+                sizes="(min-width: 1024px) 22rem, (min-width: 768px) 46vw, 92vw"
+              />
               <div className="flex flex-1 flex-col gap-3">
                 <div className="flex items-baseline justify-between gap-4">
                   <h3 id={`web-${project.slug}`} className="text-lg font-bold">

@@ -15,6 +15,7 @@ export const projects: Project[] = [
     stack: ['Power Apps', 'Power Fx', 'Power Automate', 'Dataverse', 'SharePoint', 'Word Online', 'Teams', 'API REST'],
     tier: 'powerPlatform',
     links: { code: 'https://github.com/Luiz0032/gestao-precontratos' },
+    image: { image: 'gestao-precontratos/home', alt: 'Tela inicial do app de pré-contratos, com indicadores e atalhos' },
     facts: [
       { label: 'Telas', value: '9' },
       { label: 'Componentes', value: '3' },
@@ -89,11 +90,11 @@ export const projects: Project[] = [
         },
       ],
       gallery: [
-        { alt: 'Tela inicial com indicadores e atalhos' },
-        { alt: 'Formulário de novo pré-contrato, com fornecedor, obra, condições e anexos' },
-        { alt: 'Revisão jurídica com a prévia em PDF e as opções de aprovar ou pedir ajuste' },
-        { alt: 'Pendentes: rascunhos e itens com ajustes solicitados' },
-        { alt: 'Histórico de eventos de um pré-contrato' },
+        { image: 'gestao-precontratos/home', alt: 'Tela inicial com indicadores e atalhos' },
+        { image: 'gestao-precontratos/novo-precontrato', alt: 'Formulário de novo pré-contrato, com fornecedor, obra, condições e anexos' },
+        { image: 'gestao-precontratos/revisao-juridica', alt: 'Revisão jurídica com a prévia em PDF e as opções de aprovar ou pedir ajuste' },
+        { image: 'gestao-precontratos/pendentes', alt: 'Pendentes: rascunhos e itens com ajustes solicitados' },
+        { image: 'gestao-precontratos/historico', alt: 'Histórico de eventos de um pré-contrato' },
       ],
     },
   },
@@ -106,6 +107,7 @@ export const projects: Project[] = [
     stack: ['Power Apps', 'Power Fx', 'Named Formulas', 'Power Automate', 'SharePoint', 'Outlook', 'Office 365 Users'],
     tier: 'powerPlatform',
     links: { code: 'https://github.com/Luiz0032/avaliacao-colaboradores' },
+    image: { image: 'avaliacao-colaboradores/home', alt: 'Tela inicial do app de avaliação, com o status da avaliação do colaborador' },
     facts: [
       { label: 'Telas', value: '8' },
       { label: 'Componentes', value: '3' },
@@ -155,10 +157,10 @@ export const projects: Project[] = [
         },
       ],
       gallery: [
-        { alt: 'Tela inicial do colaborador com o status da avaliação' },
-        { alt: 'Definição de metas com pesos, mostrando a validação da soma de 100%' },
-        { alt: 'Autoavaliação das competências na escala de 1 a 3' },
-        { alt: 'Administração do ciclo: datas, competências e participantes' },
+        { image: 'avaliacao-colaboradores/home', alt: 'Tela inicial do colaborador com o status da avaliação' },
+        { image: 'avaliacao-colaboradores/metas', alt: 'Definição de metas com pesos, mostrando a validação da soma de 100%' },
+        { image: 'avaliacao-colaboradores/autoavaliacao', alt: 'Autoavaliação das competências na escala de 1 a 3' },
+        { image: 'avaliacao-colaboradores/admin', alt: 'Administração do ciclo: datas, competências e participantes' },
       ],
     },
   },
@@ -171,6 +173,7 @@ export const projects: Project[] = [
     tier: 'featured',
     year: '2026',
     links: { demo: 'https://portfolio-comercial-two.vercel.app' },
+    image: { image: 'vstech/home', alt: 'Primeira dobra da landing page da VSTech' },
   },
   {
     slug: 'formulario-leads',
@@ -182,10 +185,8 @@ export const projects: Project[] = [
     year: '2025',
     links: { code: 'https://github.com/Luiz0032/Fomulario' },
     image: {
-      src: '/projects/formulario-demo.gif',
-      alt: 'Demonstração do formulário: campos de nome, e-mail e telefone e, abaixo, um cliente cadastrado com botão de excluir.',
-      width: 1874,
-      height: 964,
+      video: 'formulario-demo',
+      alt: 'Demonstração: um cliente de teste é cadastrado no formulário (nome, e-mail e telefone), aparece na lista com botão de excluir e é conferido no banco de dados.',
     },
   },
   {
@@ -197,6 +198,7 @@ export const projects: Project[] = [
     tier: 'featured',
     year: '2025',
     links: { code: 'https://github.com/Luiz0032/gestor-de-tarefas' },
+    image: { image: 'gerenciador-tarefas/home', alt: 'Lista de tarefas em cards, com filtro por status e busca' },
   },
   {
     slug: 'meu-launcher',
