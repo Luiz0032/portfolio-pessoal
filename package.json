@@ -15,7 +15,8 @@
     "sitemap": "node scripts/sitemap.mjs",
     "test:seo": "node scripts/check-seo.mjs",
     "test:a11y": "node scripts/a11y.mjs",
-    "test:lighthouse": "node scripts/lighthouse.mjs"
+    "test:lighthouse": "node scripts/lighthouse.mjs",
+    "test:keyboard": "node scripts/keyboard.mjs"
   },
   "dependencies": {
     "@fontsource-variable/schibsted-grotesk": "^5.3.0",
