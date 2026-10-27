@@ -19,7 +19,8 @@ export const projects: Project[] = [
       { label: 'Telas', value: '9' },
       { label: 'Componentes', value: '3' },
       { label: 'Fluxos no Power Automate', value: '6' },
-      { label: 'Listas e bibliotecas no SharePoint', value: '5' },
+      { label: 'Listas no SharePoint', value: '5' },
+      { label: 'Bibliotecas de documentos', value: '2' },
     ],
     caseStudy: {
       problem:
