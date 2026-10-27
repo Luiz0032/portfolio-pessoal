@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { PrintButton } from '@/components/PrintButton'
-import { Todo } from '@/components/ui/Todo'
+import { experience, independent, languages, type Experience } from '@/data/experience'
 import { projects } from '@/data/projects'
 import { profile } from '@/data/profile'
 import { siteUrl } from '@/data/site'
@@ -21,10 +21,34 @@ const display = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace
 
 function Part({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="grid gap-3 border-t border-line py-6 break-inside-avoid md:grid-cols-[10rem_1fr] md:gap-8 print:grid-cols-[8rem_1fr] print:py-4">
+    // Sem break-inside-avoid na seção inteira: seções longas pulariam de página e deixariam espaço em branco.
+    <section className="grid gap-3 border-t border-line py-6 md:grid-cols-[10rem_1fr] md:gap-8 print:grid-cols-[7.5rem_1fr] print:gap-6 print:py-3">
       <h2 className="text-sm font-bold tracking-tight text-accent">{title}</h2>
       <div className="min-w-0">{children}</div>
     </section>
+  )
+}
+
+function Jobs({ items }: { items: Experience[] }) {
+  return (
+    <ul className="space-y-5 text-sm">
+      {items.map((job) => (
+        <li key={job.company} className="break-inside-avoid">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4">
+            <p className="font-semibold">
+              {job.role} <span className="font-normal text-muted">· {job.company}</span>
+            </p>
+            <p className="text-xs text-muted tabular-nums">{job.period}</p>
+          </div>
+          {job.description && <p className="mt-1">{job.description}</p>}
+          <ul className="mt-1.5 list-disc space-y-1 pl-5 marker:text-muted">
+            {job.bullets.map((bullet) => (
+              <li key={bullet}>{bullet}</li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ul>
   )
 }
 
@@ -32,6 +56,7 @@ export default function Curriculo() {
   const selected = projects.filter((p) => p.tier === 'powerPlatform' || p.tier === 'featured')
   const contacts = [
     { label: profile.contacts.email, href: `mailto:${profile.contacts.email}` },
+    { label: profile.contacts.phone.display, href: profile.contacts.phone.href },
     { label: display(profile.contacts.linkedin), href: profile.contacts.linkedin },
     { label: display(profile.contacts.github), href: profile.contacts.github },
     { label: display(siteUrl), href: siteUrl },
@@ -44,7 +69,10 @@ export default function Curriculo() {
         <p className="text-sm text-muted">{t.resume.printHint}</p>
       </div>
 
-      <article aria-labelledby="cv-title" className="mx-auto max-w-[52rem] rounded-card border border-line bg-surface p-6 md:p-10 print:max-w-none print:border-0 print:p-0">
+      <article
+        aria-labelledby="cv-title"
+        className="mx-auto max-w-[52rem] rounded-card border border-line bg-surface p-6 md:p-10 print:max-w-none print:border-0 print:p-0"
+      >
         <header className="pb-6">
           <h1 id="cv-title" className="text-3xl font-bold">
             {profile.name}
@@ -63,32 +91,30 @@ export default function Curriculo() {
         </header>
 
         <Part title={t.resume.summary}>
-          <div className="space-y-2 text-sm">
-            {t.about.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </div>
+          <p className="text-sm">{t.resume.summaryText}</p>
         </Part>
 
         <Part title={t.resume.experience}>
-          <Todo>{t.resume.experienceTodo}</Todo>
+          <Jobs items={experience} />
+        </Part>
+
+        <Part title={t.resume.independent}>
+          <Jobs items={independent} />
         </Part>
 
         <Part title={t.resume.projects}>
-          <ul className="space-y-4 text-sm">
+          <ul className="space-y-4 text-sm print:space-y-1">
             {selected.map((project) => (
               <li key={project.slug} className="break-inside-avoid">
                 <p className="font-semibold">
                   {project.title}
-                  {project.links.code && (
-                    <span className="font-normal text-muted"> · {display(project.links.code)}</span>
-                  )}
-                  {!project.links.code && project.links.demo && (
-                    <span className="font-normal text-muted"> · {display(project.links.demo)}</span>
+                  {(project.links.code ?? project.links.demo) && (
+                    <span className="font-normal text-muted"> · {display((project.links.code ?? project.links.demo)!)}</span>
                   )}
                 </p>
-                <p className="mt-0.5">{project.summary}</p>
-                <p className="mt-0.5 text-xs text-muted">{project.stack.join(', ')}</p>
+                {/* No papel, um projeto por linha (nome e link) para o currículo caber em 2 páginas. */}
+                <p className="mt-0.5 print:hidden">{project.summary}</p>
+                <p className="mt-0.5 text-xs text-muted print:hidden">{project.stack.join(', ')}</p>
               </li>
             ))}
           </ul>
@@ -97,7 +123,7 @@ export default function Curriculo() {
         <Part title={t.resume.education}>
           <p className="text-sm">
             <span className="font-semibold">{profile.education.course}</span>, {profile.education.school}
-            <span className="block text-muted">Conclusão prevista em {profile.education.expectedEnd}</span>
+            <span className="block text-muted">{t.resume.educationStatus}</span>
           </p>
         </Part>
 
@@ -110,6 +136,17 @@ export default function Curriculo() {
               </div>
             ))}
           </dl>
+        </Part>
+
+        <Part title={t.resume.languages}>
+          <p className="text-sm">
+            {languages.map((item, i) => (
+              <span key={item.language}>
+                {i > 0 && ' · '}
+                <span className="font-semibold">{item.language}</span>: {item.level}
+              </span>
+            ))}
+          </p>
         </Part>
       </article>
     </div>

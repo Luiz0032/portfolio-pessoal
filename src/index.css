@@ -158,8 +158,8 @@
     --accent-soft: transparent;
     color-scheme: light;
   }
-  body { font-size: 10.5pt; }
-  @page { margin: 14mm 16mm; }
+  body { font-size: 10pt; }
+  @page { margin: 12mm 14mm; }
 }
 
 @utility container-page {

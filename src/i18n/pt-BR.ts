@@ -52,7 +52,7 @@ export const ptBR = {
   about: {
     title: 'Sobre',
     paragraphs: [
-      'Sou desenvolvedor full-stack júnior em Curitiba. Trabalho com JavaScript, TypeScript, React e Node.js, e tenho experiência profissional em automação de processos, integração de APIs e soluções low-code com Power Apps e Power Automate.',
+      'Sou desenvolvedor full-stack júnior em Curitiba. Trabalho com JavaScript, TypeScript, React e Node.js. Profissionalmente, desenvolvi automações back-end e integrações com APIs e JSON (WhatsApp, SMS e chatbots) e, depois, aplicações low-code e fluxos com Power Apps, Power Automate e Microsoft 365.',
       'Sou cofundador da VSTech, agência de criação de sites e marketing digital, onde entrego sites do planejamento ao deploy.',
       'No dia a dia, uso Claude Code e agentes de código para planejar, implementar, depurar e revisar, e valido o resultado antes de publicar.',
     ],
@@ -94,12 +94,15 @@ export const ptBR = {
     print: 'Imprimir ou salvar em PDF',
     printHint: 'No diálogo de impressão, escolha “Salvar como PDF”.',
     summary: 'Resumo',
+    summaryText:
+      'Estudante de Engenharia de Software (Estácio), com foco em desenvolvimento web full-stack com JavaScript, TypeScript, React e Node.js. Tenho experiência profissional em desenvolvimento back-end de automações e integrações com APIs e JSON, além do desenvolvimento de aplicações low-code e fluxos automatizados com Power Apps, Power Automate e Microsoft 365. Como cofundador da VSTech, agência de criação de sites e marketing digital, desenvolvo sites para clientes do planejamento à publicação. Uso o Claude Code e agentes de programação no planejamento, na implementação, na depuração e na revisão de código, sempre validando as alterações antes de publicá-las.',
     experience: 'Experiência',
-    experienceTodo:
-      'empresas, cargos, períodos e responsabilidades da experiência profissional (o briefing não traz esses dados).',
+    independent: 'Atuação independente',
     projects: 'Projetos selecionados',
     education: 'Formação',
-    skills: 'Habilidades',
+    educationStatus: 'EAD, em andamento. Previsão de conclusão: nov/2027',
+    skills: 'Competências',
+    languages: 'Idiomas',
   },
   skills: {
     title: 'Habilidades',

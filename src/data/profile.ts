@@ -11,6 +11,8 @@ export const profile = {
   },
   contacts: {
     email: 'luizfernandostremevogel@gmail.com',
+    // Só aparece no /curriculo (decisão do Luiz).
+    phone: { display: '(47) 99910-0032', href: 'tel:+5547999100032' },
     github: 'https://github.com/Luiz0032',
     linkedin: 'https://www.linkedin.com/in/luiz-fernando-streme-vogel-aaa363226/',
     vstech: 'https://portfolio-comercial-two.vercel.app',
