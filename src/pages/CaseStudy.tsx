@@ -12,6 +12,7 @@ import { TagList } from '@/components/ui/TagList'
 import { showTodos } from '@/components/ui/showTodos'
 import { Todo } from '@/components/ui/Todo'
 import { textLink } from '@/components/ui/styles'
+import { hasMedia } from '@/data/media'
 import { caseStudyPath, findCaseStudy, nextCaseStudy } from '@/data/projects'
 import { ogImageKey } from '@/data/site'
 import { t } from '@/i18n'
@@ -50,7 +51,9 @@ export default function CaseStudy() {
   if (!project?.caseStudy) return <NotFoundView />
 
   const study = project.caseStudy
-  const [cover, ...screens] = study.gallery
+  const [cover, ...allScreens] = study.gallery
+  // Na galeria de produção entram só os prints reais; os que faltam aparecem como TODO em desenvolvimento.
+  const screens = showTodos ? allScreens : allScreens.filter(hasMedia)
   const architecture = architectureDiagrams[project.slug]
   const next = nextCaseStudy(project)
 
@@ -73,7 +76,7 @@ export default function CaseStudy() {
             {project.facts && <Facts facts={project.facts} />}
             <TagList items={project.stack} />
           </div>
-          {cover && <Shot shot={cover} priority sizes="(min-width: 1024px) 40rem, 92vw" />}
+          {cover && <Shot shot={cover} cover={project} priority sizes="(min-width: 1024px) 40rem, 92vw" />}
         </div>
       </header>
 

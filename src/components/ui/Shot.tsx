@@ -3,9 +3,12 @@ import { fallbackSrc, getImage, getVideo, srcSet, type ImageEntry, type VideoEnt
 import type { Shot as ShotData } from '@/data/types'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 import { showTodos } from './showTodos'
+import { StackCover } from './StackCover'
 
 type Props = {
   shot: ShotData
+  /** Capa de projeto: sem print, a produção mostra uma capa gerada com o nome e a stack. */
+  cover?: { title: string; stack: string[] }
   /** Largura ocupada na tela, para o navegador escolher o arquivo certo do srcset. */
   sizes?: string
   className?: string
@@ -74,15 +77,15 @@ function LoopVideo({ video, alt, sizes, priority }: { video: VideoEntry; alt: st
 }
 
 /**
- * Print ou vídeo de projeto. Sem arquivo gerado, mostra um placeholder no tamanho final:
- * com TODO em desenvolvimento e só o quadro listrado (decorativo, sem texto) em produção.
+ * Print ou vídeo de projeto. Sem arquivo gerado, ocupa o tamanho final com: um TODO em
+ * desenvolvimento; em produção, a capa gerada (se `cover`) ou um quadro listrado decorativo.
  */
-export function Shot({ shot, sizes = '100vw', className = '', priority }: Props) {
+export function Shot({ shot, cover, sizes = '100vw', className = '', priority }: Props) {
   const video = getVideo(shot.video)
   const image = getImage(shot.image)
   const media = { alt: shot.alt, sizes, priority }
 
-  if (video || (image && shot.image)) {
+  if (video || image) {
     return (
       <div className={`${frame} bg-surface ${className}`}>
         {video ? <LoopVideo video={video} {...media} /> : <Picture name={shot.image!} entry={image!} {...media} />}
@@ -92,7 +95,9 @@ export function Shot({ shot, sizes = '100vw', className = '', priority }: Props)
 
   const placeholder = `${frame} relative grid place-items-center bg-[repeating-linear-gradient(135deg,var(--surface)_0_14px,var(--bg)_14px_28px)] p-6 ${className}`
 
-  if (!showTodos) return <div aria-hidden="true" className={placeholder} />
+  if (!showTodos) {
+    return cover ? <StackCover {...cover} frame={frame} className={className} /> : <div aria-hidden="true" className={placeholder} />
+  }
 
   return (
     <div role="img" aria-label={`Print ainda não disponível: ${shot.alt}`} className={`${placeholder} border-dashed`}>

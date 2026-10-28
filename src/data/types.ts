@@ -3,7 +3,7 @@ export type ProjectTier = 'powerPlatform' | 'featured' | 'other'
 /**
  * Print ou vídeo de um projeto, pelo nome no manifesto de mídia (ex.: 'gestao-precontratos/home'
  * para media/shots/gestao-precontratos/home.png). Se o arquivo ainda não existe, a página mostra
- * um placeholder no tamanho final com o `alt` como descrição do print que falta (TODO).
+ * um TODO no tamanho final em desenvolvimento; em produção, capas viram uma capa gerada e prints da galeria somem.
  */
 export type Shot = {
   image?: string
@@ -41,7 +41,7 @@ export type Project = {
   year?: string
   /** Repositórios privados não têm `code`. */
   links: { code?: string; demo?: string }
-  /** Imagem do card. Sem `src`, vira placeholder com TODO. */
+  /** Imagem do card. Sem print, vira uma capa gerada com o nome e a stack (TODO em desenvolvimento). */
   image?: Shot
   /** Só números conferidos no repositório. */
   facts?: { label: string; value: string }[]

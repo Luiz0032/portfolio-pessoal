@@ -19,6 +19,7 @@ export function PowerPlatform() {
             className="grid gap-8 rounded-card border border-line bg-surface p-5 md:p-8 lg:grid-cols-2 lg:items-center lg:gap-12"
           >
             <Shot
+              cover={project}
               shot={project.image ?? { alt: `Tela inicial do app ${project.title}, com dados fictícios` }}
               sizes="(min-width: 1024px) 34rem, 92vw"
               className={index % 2 === 1 ? 'lg:order-2' : ''}
