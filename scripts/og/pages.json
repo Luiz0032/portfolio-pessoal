@@ -1,0 +1,70 @@
+{
+  "domain": "luiz-vogel.vercel.app",
+  "name": "Luiz Fernando Streme Vogel",
+  "pages": [
+    {
+      "key": "home",
+      "path": "/",
+      "kind": "home",
+      "title": "Luiz Fernando Streme Vogel",
+      "subtitle": "Desenvolvedor full-stack júnior, com foco em automação e Power Platform"
+    },
+    {
+      "key": "curriculo",
+      "path": "/curriculo",
+      "kind": "cv",
+      "title": "Currículo",
+      "subtitle": "Luiz Fernando Streme Vogel · Desenvolvedor full-stack júnior, com foco em automação e Power Platform"
+    },
+    {
+      "key": "projeto-gestao-precontratos",
+      "path": "/projetos/gestao-precontratos",
+      "kind": "case",
+      "title": "Gestão de Pré-Contratos",
+      "subtitle": "App que digitaliza o ciclo de pré-contratos de fornecedores: cadastro por CNPJ, minuta gerada do modelo corporativo, revisão jurídica com ajustes e reenvio, aviso no Teams e histórico auditável.",
+      "facts": [
+        {
+          "label": "Telas",
+          "value": "9"
+        },
+        {
+          "label": "Componentes",
+          "value": "3"
+        },
+        {
+          "label": "Fluxos no Power Automate",
+          "value": "6"
+        },
+        {
+          "label": "Listas no SharePoint",
+          "value": "5"
+        }
+      ]
+    },
+    {
+      "key": "projeto-avaliacao-colaboradores",
+      "path": "/projetos/avaliacao-colaboradores",
+      "kind": "case",
+      "title": "Avaliação de Colaboradores",
+      "subtitle": "App de avaliação de desempenho para RH: o administrador abre o ciclo, o colaborador define metas com pesos e faz a autoavaliação, o gestor avalia o time e a nota final é calibrada.",
+      "facts": [
+        {
+          "label": "Telas",
+          "value": "8"
+        },
+        {
+          "label": "Componentes",
+          "value": "3"
+        },
+        {
+          "label": "Fluxos no Power Automate",
+          "value": "2"
+        },
+        {
+          "label": "Listas no SharePoint",
+          "value": "9"
+        }
+      ]
+    }
+  ]
+}

@@ -3,17 +3,42 @@
     "ask": [
       "Bash(git push)",
       "Bash(git push *)",
-      "Bash(vercel *--prod*)",
-      "Bash(npx vercel *--prod*)",
-      "Bash(vercel promote*)",
-      "Bash(npx vercel promote*)",
       "PowerShell(git push)",
       "PowerShell(git push *)",
+
+      "Bash(vercel)",
+      "Bash(vercel -*)",
+      "Bash(vercel deploy*)",
+      "Bash(vercel *--prod*)",
+      "Bash(vercel promote*)",
+      "Bash(vercel redeploy*)",
+      "Bash(vercel rollback*)",
+      "Bash(npx vercel)",
+      "Bash(npx vercel -*)",
+      "Bash(npx vercel deploy*)",
+      "Bash(npx vercel *--prod*)",
+      "Bash(npx vercel promote*)",
+      "Bash(npx vercel redeploy*)",
+      "Bash(npx vercel rollback*)",
+
+      "PowerShell(vercel)",
+      "PowerShell(vercel -*)",
+      "PowerShell(vercel deploy*)",
       "PowerShell(vercel *--prod*)",
-      "PowerShell(npx vercel *--prod*)",
       "PowerShell(vercel promote*)",
+      "PowerShell(vercel redeploy*)",
+      "PowerShell(vercel rollback*)",
+      "PowerShell(npx vercel)",
+      "PowerShell(npx vercel -*)",
+      "PowerShell(npx vercel deploy*)",
+      "PowerShell(npx vercel *--prod*)",
       "PowerShell(npx vercel promote*)",
-      "mcp__plugin_vercel_vercel__request_promote"
+      "PowerShell(npx vercel redeploy*)",
+      "PowerShell(npx vercel rollback*)",
+
+      "mcp__plugin_vercel_vercel__create_deployment",
+      "mcp__plugin_vercel_vercel__request_promote",
+      "mcp__plugin_vercel_vercel__request_rollback"
     ]
   }
 }

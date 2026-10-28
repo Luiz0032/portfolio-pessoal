@@ -29,3 +29,19 @@ dist-ssr
 
 # Prints e logs do Playwright MCP
 .playwright-mcp/
+
+# React Router (tipos gerados)
+/.react-router/
+
+# Gerados no build (scripts/sitemap.mjs)
+/public/sitemap.xml
+/public/robots.txt
+
+# Relatórios do Lighthouse
+.lighthouse/
+
+# Briefing pessoal do projeto (não publicar)
+/briefing-portfolio.md
+
+.vercel
+.env*
