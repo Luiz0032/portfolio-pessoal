@@ -44,6 +44,15 @@ const types = {
   '.txt': 'text/plain; charset=utf-8',
 }
 
+// Cabeçalhos do vercel.json (CSP etc.), para os testes locais rodarem com as mesmas regras da produção.
+const vercelHeaders = JSON.parse(await readFile('vercel.json', 'utf8')).headers ?? []
+const headersFor = (urlPath) =>
+  Object.fromEntries(
+    vercelHeaders
+      .filter(({ source }) => new RegExp(`^${source}$`).test(urlPath))
+      .flatMap(({ headers }) => headers.map(({ key, value }) => [key.toLowerCase(), value])),
+  )
+
 /** Arquivo pedido (ou pasta/index.html). `null` se não existir ou se o caminho sair da raiz. */
 async function findFile(root, urlPath) {
   let clean
@@ -74,7 +83,10 @@ export function serve(dir = 'dist/client', port = 4300) {
       const file = found ?? join(root, '404.html')
       const status = found ? 200 : 404
       const body = await readFile(file)
-      const headers = { 'content-type': types[extname(file)] ?? 'application/octet-stream' }
+      const headers = {
+        ...headersFor((req.url ?? '/').split('?')[0]),
+        'content-type': types[extname(file)] ?? 'application/octet-stream',
+      }
       const accepts = req.headers['accept-encoding'] ?? ''
       const encoding = !COMPRESSIBLE.has(extname(file)) ? null : accepts.includes('br') ? 'br' : accepts.includes('gzip') ? 'gzip' : null
       if (encoding) {
