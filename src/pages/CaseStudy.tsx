@@ -9,6 +9,7 @@ import { ProjectLinks } from '@/components/ui/ProjectLinks'
 import { ScrollRegion } from '@/components/ui/ScrollRegion'
 import { Shot } from '@/components/ui/Shot'
 import { TagList } from '@/components/ui/TagList'
+import { showTodos } from '@/components/ui/showTodos'
 import { Todo } from '@/components/ui/Todo'
 import { textLink } from '@/components/ui/styles'
 import { caseStudyPath, findCaseStudy, nextCaseStudy } from '@/data/projects'
@@ -76,13 +77,18 @@ export default function CaseStudy() {
         </div>
       </header>
 
-      <Block id="problema" title={t.caseStudy.problem}>
-        {study.problem ? <p className="max-w-prose">{study.problem}</p> : <Todo>{t.caseStudy.problemTodo}</Todo>}
-      </Block>
+      {/* Sem conteúdo, a seção inteira só aparece em desenvolvimento (com o TODO). */}
+      {(study.problem || showTodos) && (
+        <Block id="problema" title={t.caseStudy.problem}>
+          {study.problem ? <p className="max-w-prose">{study.problem}</p> : <Todo>{t.caseStudy.problemTodo}</Todo>}
+        </Block>
+      )}
 
-      <Block id="antes-depois" title={t.caseStudy.beforeAfter}>
-        {study.beforeAfter.length > 0 ? <BeforeAfter rows={study.beforeAfter} /> : <Todo>{t.caseStudy.beforeAfterTodo}</Todo>}
-      </Block>
+      {(study.beforeAfter.length > 0 || showTodos) && (
+        <Block id="antes-depois" title={t.caseStudy.beforeAfter}>
+          {study.beforeAfter.length > 0 ? <BeforeAfter rows={study.beforeAfter} /> : <Todo>{t.caseStudy.beforeAfterTodo}</Todo>}
+        </Block>
+      )}
 
       <Block id="quem-usa" title={t.caseStudy.roles}>
         <dl className="grid gap-6 sm:grid-cols-2">
