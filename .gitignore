@@ -42,3 +42,6 @@ dist-ssr
 
 # Briefing pessoal do projeto (não publicar)
 /briefing-portfolio.md
+
+.vercel
+.env*
