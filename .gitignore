@@ -39,3 +39,6 @@ dist-ssr
 
 # Relatórios do Lighthouse
 .lighthouse/
+
+# Briefing pessoal do projeto (não publicar)
+/briefing-portfolio.md
