@@ -1,12 +1,10 @@
 // Navegação só com teclado (Tab, Enter, Esc, setas) nas rotas do site, no desktop e no celular.
 // Rode `npm run build` antes. Uso: npm run test:keyboard   (sai com código 1 se algo falhar)
 
-import { chromium } from 'playwright-core'
-import { caseStudyPaths } from '../src/data/projects.ts'
-import { serve } from './lib/serve.mjs'
+import { caseStudies, caseStudyPath, publicPaths } from '../src/data/projects.ts'
+import { STORAGE_KEY } from '../src/hooks/useTheme.ts'
+import { missingPath, withBrowser } from './lib/browser.mjs'
 
-const server = await serve('dist/client', 4500)
-const browser = await chromium.launch({ channel: process.env.PW_CHANNEL ?? 'msedge' })
 const report = []
 const fail = (msg) => report.push(`✗ ${msg}`)
 const pass = (msg) => report.push(`✓ ${msg}`)
@@ -44,16 +42,16 @@ async function tabThrough(page, route) {
   return stops
 }
 
-try {
+await withBrowser(4500, async ({ browser, url }) => {
   // Desktop
   const desktop = await browser.newPage({ viewport: { width: 1280, height: 900 }, reducedMotion: 'reduce' })
-  for (const route of ['/', '/curriculo', ...caseStudyPaths(), '/pagina-que-nao-existe']) {
-    await desktop.goto(server.url + route, { waitUntil: 'networkidle' })
+  for (const route of [...publicPaths(), missingPath]) {
+    await desktop.goto(url + route, { waitUntil: 'networkidle' })
     await tabThrough(desktop, `desktop ${route}`)
   }
 
   // Pular para o conteúdo
-  await desktop.goto(server.url + '/', { waitUntil: 'networkidle' })
+  await desktop.goto(url + '/', { waitUntil: 'networkidle' })
   await desktop.keyboard.press('Tab')
   const skip = await focused(desktop)
   expect(skip?.label === 'Pular para o conteúdo' && skip.visible, 'primeiro Tab mostra "Pular para o conteúdo"')
@@ -61,7 +59,7 @@ try {
   expect((await focused(desktop))?.id === 'conteudo', 'Enter no link de pular leva o foco para o conteúdo principal')
 
   // Menu do cabeçalho leva à seção
-  await desktop.goto(server.url + '/', { waitUntil: 'networkidle' })
+  await desktop.goto(url + '/', { waitUntil: 'networkidle' })
   await desktop.focus('header nav a[href="/#habilidades"]')
   await desktop.keyboard.press('Enter')
   await desktop.waitForTimeout(400)
@@ -72,18 +70,18 @@ try {
   expect(inView, 'Enter em "Habilidades" no cabeçalho rola até a seção')
 
   // Tema
-  await desktop.goto(server.url + '/', { waitUntil: 'networkidle' })
+  await desktop.goto(url + '/', { waitUntil: 'networkidle' })
   const before = await desktop.evaluate(() => document.documentElement.dataset.theme)
   await desktop.focus('header button[aria-label^="Ativar tema"]')
   await desktop.keyboard.press('Enter')
   const after = await desktop.evaluate(() => document.documentElement.dataset.theme)
   expect(before !== after, `Enter no botão de tema alterna (${before} → ${after})`)
-  await desktop.evaluate(() => localStorage.removeItem('tema'))
+  await desktop.evaluate((key) => localStorage.removeItem(key), STORAGE_KEY)
 
   // Diagrama rolável no celular estreito: foco e setas
   const narrow = await browser.newPage({ viewport: { width: 375, height: 812 }, reducedMotion: 'reduce' })
-  const firstCase = caseStudyPaths()[0]
-  await narrow.goto(server.url + firstCase, { waitUntil: 'networkidle' })
+  const firstCase = caseStudyPath(caseStudies[0].slug)
+  await narrow.goto(url + firstCase, { waitUntil: 'networkidle' })
   const region = narrow.locator('[role="region"][aria-label="Diagrama de arquitetura"]')
   await region.focus()
   await narrow.keyboard.press('ArrowRight')
@@ -93,7 +91,7 @@ try {
   expect(scrolled > 0, `diagrama de arquitetura recebe foco e rola com as setas (scrollLeft ${scrolled})`)
 
   // Menu mobile: abrir com Enter, foco no primeiro link, Esc fecha e devolve o foco
-  await narrow.goto(server.url + '/', { waitUntil: 'networkidle' })
+  await narrow.goto(url + '/', { waitUntil: 'networkidle' })
   await tabThrough(narrow, 'celular /')
   await narrow.focus('button[aria-controls="menu-mobile"]')
   await narrow.keyboard.press('Enter')
@@ -112,10 +110,7 @@ try {
   await narrow.waitForTimeout(400)
   const navigated = await narrow.evaluate(() => ({ hash: location.hash, closed: document.getElementById('menu-mobile').hidden }))
   expect(navigated.closed && navigated.hash !== '', `Enter num link do menu navega (${navigated.hash}) e fecha o menu`)
-} finally {
-  await browser.close()
-  server.close()
-}
+})
 
 console.log(report.join('\n'))
 const failures = report.filter((r) => r.startsWith('✗')).length

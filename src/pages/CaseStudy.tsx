@@ -6,32 +6,27 @@ import { architectureDiagrams } from '@/components/case/diagrams'
 import { NotFoundView } from '@/components/NotFoundView'
 import { Facts } from '@/components/ui/Facts'
 import { ProjectLinks } from '@/components/ui/ProjectLinks'
+import { ScrollRegion } from '@/components/ui/ScrollRegion'
 import { Shot } from '@/components/ui/Shot'
 import { TagList } from '@/components/ui/TagList'
 import { Todo } from '@/components/ui/Todo'
 import { textLink } from '@/components/ui/styles'
-import { findCaseStudy, projects } from '@/data/projects'
+import { caseStudyPath, findCaseStudy, nextCaseStudy } from '@/data/projects'
+import { ogImageKey } from '@/data/site'
 import { t } from '@/i18n'
-import { pageMeta } from '@/seo/meta'
+import { notFoundMeta, pageMeta } from '@/seo/meta'
 import { caseStudySchema } from '@/seo/schema'
 import type { Route } from './+types/CaseStudy'
 
 export const meta = ({ params }: Route.MetaArgs) => {
   const project = findCaseStudy(params.slug)
-  if (!project) {
-    return pageMeta({
-      title: `${t.notFound.title} · ${t.meta.titleSuffix}`,
-      description: t.notFound.body,
-      path: `/projetos/${params.slug}`,
-      noindex: true,
-    })
-  }
+  if (!project) return notFoundMeta()
   return pageMeta({
     title: `${project.title}, ${t.meta.caseStudySuffix} · ${t.meta.titleSuffix}`,
     description: project.metaDescription ?? project.summary,
-    path: `/projetos/${project.slug}`,
+    path: caseStudyPath(project.slug),
     type: 'article',
-    ogImage: `projeto-${project.slug}`,
+    ogImage: ogImageKey.caseStudy(project.slug),
     jsonLd: [caseStudySchema(project)],
   })
 }
@@ -56,8 +51,7 @@ export default function CaseStudy() {
   const study = project.caseStudy
   const [cover, ...screens] = study.gallery
   const architecture = architectureDiagrams[project.slug]
-  const caseStudies = projects.filter((p) => p.caseStudy)
-  const next = caseStudies[(caseStudies.indexOf(project) + 1) % caseStudies.length]
+  const next = nextCaseStudy(project)
 
   return (
     <article aria-labelledby="case-title" className="container-page pb-8">
@@ -108,15 +102,9 @@ export default function CaseStudy() {
       {architecture && (
         <Block id="arquitetura" title={t.caseStudy.architecture}>
           <figure className="m-0">
-            {/* Focável para rolar pelo teclado quando o diagrama é mais largo que a tela. */}
-            <div
-              tabIndex={0}
-              role="region"
-              aria-label={t.caseStudy.diagramRegion}
-              className="overflow-x-auto rounded-card border border-line bg-bg p-4"
-            >
+            <ScrollRegion label={t.caseStudy.diagramRegion} className="rounded-card border border-line bg-bg p-4">
               <architecture.Diagram />
-            </div>
+            </ScrollRegion>
             <figcaption className="mt-4 max-w-prose text-sm text-muted">
               {architecture.caption} <span className="lg:hidden">{t.caseStudy.diagramHint}</span>
             </figcaption>
@@ -151,7 +139,7 @@ export default function CaseStudy() {
       {next && next !== project && (
         <nav aria-label={t.caseStudy.next} className="border-t border-line pt-10">
           <p className="text-sm text-muted">{t.caseStudy.next}</p>
-          <Link to={`/projetos/${next.slug}`} className={`${textLink} mt-1 inline-block text-xl`}>
+          <Link to={caseStudyPath(next.slug)} className={`${textLink} mt-1 inline-block text-xl`}>
             {next.title}
           </Link>
         </nav>

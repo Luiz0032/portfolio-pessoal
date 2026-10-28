@@ -3,7 +3,6 @@ export const ptBR = {
   skipLink: 'Pular para o conteúdo',
   nav: {
     label: 'Principal',
-    home: 'Página inicial',
     projects: 'Projetos',
     about: 'Sobre',
     skills: 'Habilidades',
@@ -11,7 +10,6 @@ export const ptBR = {
     resume: 'Currículo',
     openMenu: 'Abrir menu',
     closeMenu: 'Fechar menu',
-    menu: 'Menu',
   },
   theme: {
     toDark: 'Ativar tema escuro',

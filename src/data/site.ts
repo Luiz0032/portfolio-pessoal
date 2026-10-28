@@ -5,3 +5,10 @@ const fromVite = (import.meta as { env?: Record<string, string | undefined> }).e
 const fromNode = (globalThis as { process?: { env: Record<string, string | undefined> } }).process?.env.VITE_SITE_URL
 
 export const siteUrl = (fromVite ?? fromNode ?? 'https://luiz-vogel.vercel.app').replace(/\/$/, '')
+
+/** URL sem protocolo, "www." e barra final, para exibir em texto. */
+export const displayUrl = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')
+
+/** Imagens de Open Graph: public/og/<chave>.png, geradas a partir de scripts/og/. */
+export const ogImageKey = { home: 'home', resume: 'curriculo', caseStudy: (slug: string) => `projeto-${slug}` }
+export const ogImageUrl = (key: string) => `${siteUrl}/og/${key}.png`

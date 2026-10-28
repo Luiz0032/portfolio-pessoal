@@ -2,15 +2,13 @@
 // Roda antes do `react-router build` (ver script "build"). Node 24 executa os .ts de src/data diretamente.
 
 import { writeFile } from 'node:fs/promises'
-import { caseStudyPaths } from '../src/data/projects.ts'
+import { publicPaths } from '../src/data/projects.ts'
 import { siteUrl } from '../src/data/site.ts'
 
 const today = new Date().toISOString().slice(0, 10)
-const routes = [
-  { path: '/', priority: '1.0' },
-  { path: '/curriculo', priority: '0.6' },
-  ...caseStudyPaths().map((path) => ({ path, priority: '0.8' })),
-]
+// Home em destaque; estudos de caso acima do currículo.
+const priority = (path) => (path === '/' ? '1.0' : path.startsWith('/projetos/') ? '0.8' : '0.6')
+const routes = publicPaths().map((path) => ({ path, priority: priority(path) }))
 
 const urls = routes
   .map(

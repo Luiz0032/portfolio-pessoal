@@ -2,7 +2,8 @@ import { useCallback, useSyncExternalStore } from 'react'
 
 export type Theme = 'light' | 'dark'
 
-const STORAGE_KEY = 'tema'
+/** Chave da escolha de tema no localStorage (também usada pelos testes em scripts/). */
+export const STORAGE_KEY = 'tema'
 
 /**
  * Script do <head> (src/root.tsx) que aplica o tema antes da pintura. Usa a mesma chave e a mesma

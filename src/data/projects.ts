@@ -285,9 +285,19 @@ export const projects: Project[] = [
 
 export const projectsByTier = (tier: Project['tier']) => projects.filter((project) => project.tier === tier)
 
-export const findCaseStudy = (slug: string | undefined) =>
-  projects.find((project) => project.slug === slug && project.caseStudy)
+/** Projetos que têm página de estudo de caso, na ordem de destaque. */
+export const caseStudies = projects.filter((project) => project.caseStudy)
 
-/** Caminhos dos estudos de caso, usados pelo prerender em react-router.config.ts. */
-export const caseStudyPaths = () =>
-  projects.filter((project) => project.caseStudy).map((project) => `/projetos/${project.slug}`)
+export const caseStudyPath = (slug: string) => `/projetos/${slug}`
+
+export const findCaseStudy = (slug: string | undefined) => caseStudies.find((project) => project.slug === slug)
+
+/** Estudo de caso seguinte (circular), para o link no fim da página. */
+export const nextCaseStudy = (project: Project) =>
+  caseStudies[(caseStudies.indexOf(project) + 1) % caseStudies.length]
+
+/**
+ * Todas as páginas públicas. Fonte única para o prerender (react-router.config.ts), o sitemap
+ * e os testes (SEO, acessibilidade, teclado, Lighthouse): uma página nova entra em todos.
+ */
+export const publicPaths = () => ['/', '/curriculo', ...caseStudies.map((project) => caseStudyPath(project.slug))]

@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import { caseStudyPath } from '@/data/projects'
 import type { Project } from '@/data/types'
 import { t } from '@/i18n'
 import { ExternalLink } from './ExternalLink'
@@ -11,7 +12,7 @@ export function ProjectLinks({ project, caseStudy = true }: { project: Project; 
     <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
       {caseStudy && project.caseStudy && (
         <li>
-          <Link to={`/projetos/${project.slug}`} className={textLink}>
+          <Link to={caseStudyPath(project.slug)} className={textLink}>
             {t.projects.caseStudyLink}
             {hidden}
           </Link>

@@ -1,5 +1,5 @@
 import type { MetaDescriptor } from 'react-router'
-import { siteUrl } from '@/data/site'
+import { ogImageKey, ogImageUrl, siteUrl } from '@/data/site'
 import { t } from '@/i18n'
 
 type PageMeta = {
@@ -8,28 +8,26 @@ type PageMeta = {
   /** Caminho a partir da raiz, ex.: "/curriculo". */
   path: string
   type?: 'website' | 'article' | 'profile'
-  noindex?: boolean
-  /** Chave da imagem em public/og/<chave>.png (gerada a partir de scripts/og/). */
+  /** Chave da imagem de Open Graph (ver ogImageKey em src/data/site.ts). */
   ogImage?: string
   /** Blocos JSON-LD (src/seo/schema.ts). */
   jsonLd?: object[]
 }
 
-/** Title, description, canonical, Open Graph, Twitter Card e JSON-LD de uma página. */
-export function pageMeta({ title, description, path, type = 'website', noindex, ogImage = 'home', jsonLd = [] }: PageMeta): MetaDescriptor[] {
+/** Title, description, canonical, Open Graph, Twitter Card e JSON-LD de uma página indexável. */
+export function pageMeta({ title, description, path, type = 'website', ogImage = ogImageKey.home, jsonLd = [] }: PageMeta): MetaDescriptor[] {
   const url = `${siteUrl}${path}`
-  const image = `${siteUrl}/og/${ogImage}.png`
+  const image = ogImageUrl(ogImage)
   return [
     { title },
     { name: 'description', content: description },
-    // Páginas sem indexação (404) não têm endereço canônico.
-    ...(noindex ? [] : [{ tagName: 'link', rel: 'canonical', href: url }]),
+    { tagName: 'link', rel: 'canonical', href: url },
     { property: 'og:type', content: type },
     { property: 'og:site_name', content: t.meta.siteTitle },
     { property: 'og:locale', content: 'pt_BR' },
     { property: 'og:title', content: title },
     { property: 'og:description', content: description },
-    ...(noindex ? [] : [{ property: 'og:url', content: url }]),
+    { property: 'og:url', content: url },
     { property: 'og:image', content: image },
     { property: 'og:image:type', content: 'image/png' },
     { property: 'og:image:width', content: '1200' },
@@ -39,7 +37,13 @@ export function pageMeta({ title, description, path, type = 'website', noindex, 
     { name: 'twitter:title', content: title },
     { name: 'twitter:description', content: description },
     { name: 'twitter:image', content: image },
-    ...(noindex ? [{ name: 'robots', content: 'noindex' }] : []),
     ...jsonLd.map((data) => ({ 'script:ld+json': data })),
   ]
 }
+
+/** Página inexistente: sem canonical nem Open Graph, e fora do índice. */
+export const notFoundMeta = (): MetaDescriptor[] => [
+  { title: `${t.notFound.title} · ${t.meta.titleSuffix}` },
+  { name: 'description', content: t.notFound.body },
+  { name: 'robots', content: 'noindex' },
+]

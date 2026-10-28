@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { fallbackSrc, getImage, getVideo, srcSet, type ImageEntry } from '@/data/media'
+import { fallbackSrc, getImage, getVideo, srcSet, type ImageEntry, type VideoEntry } from '@/data/media'
 import type { Shot as ShotData } from '@/data/types'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
@@ -35,8 +35,7 @@ function Picture({ name, entry, alt, sizes, priority }: { name: string; entry: I
 }
 
 /** Vídeo curto em loop. Mostra o pôster até chegar perto da tela; com movimento reduzido, fica só no pôster. */
-function LoopVideo({ name, alt, sizes, priority }: { name: string; alt: string; sizes: string; priority?: boolean }) {
-  const video = getVideo(name)!
+function LoopVideo({ video, alt, sizes, priority }: { video: VideoEntry; alt: string; sizes: string; priority?: boolean }) {
   const poster = getImage(video.poster)!
   const reduced = useReducedMotion()
   const ref = useRef<HTMLDivElement>(null)
@@ -75,19 +74,14 @@ function LoopVideo({ name, alt, sizes, priority }: { name: string; alt: string; 
 
 /** Print ou vídeo de projeto. Sem arquivo gerado, mostra um placeholder com TODO no tamanho final. */
 export function Shot({ shot, sizes = '100vw', className = '', priority }: Props) {
-  if (getVideo(shot.video)) {
-    return (
-      <div className={`${frame} bg-surface ${className}`}>
-        <LoopVideo name={shot.video!} alt={shot.alt} sizes={sizes} priority={priority} />
-      </div>
-    )
-  }
-
+  const video = getVideo(shot.video)
   const image = getImage(shot.image)
-  if (image) {
+  const media = { alt: shot.alt, sizes, priority }
+
+  if (video || (image && shot.image)) {
     return (
       <div className={`${frame} bg-surface ${className}`}>
-        <Picture name={shot.image!} entry={image} alt={shot.alt} sizes={sizes} priority={priority} />
+        {video ? <LoopVideo video={video} {...media} /> : <Picture name={shot.image!} entry={image!} {...media} />}
       </div>
     )
   }

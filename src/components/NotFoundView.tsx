@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import { buttonPrimary, buttonSecondary } from '@/components/ui/styles'
 import { t } from '@/i18n'
 
 export function NotFoundView() {
@@ -10,13 +11,10 @@ export function NotFoundView() {
       </h1>
       <p className="mt-4 max-w-prose text-muted">{t.notFound.body}</p>
       <div className="mt-8 flex flex-wrap gap-3">
-        <Link to="/" className="inline-flex rounded-control bg-accent px-5 py-3 text-sm font-semibold text-accent-ink">
+        <Link to="/" className={buttonPrimary}>
           {t.notFound.back}
         </Link>
-        <Link
-          to={{ pathname: '/', hash: '#projetos' }}
-          className="inline-flex rounded-control border border-line-strong bg-surface px-5 py-3 text-sm font-semibold"
-        >
+        <Link to={{ pathname: '/', hash: '#projetos' }} className={buttonSecondary}>
           {t.notFound.projects}
         </Link>
       </div>

@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import { textLink } from '@/components/ui/styles'
 import { t } from '@/i18n'
 
 /** Erro inesperado ao renderizar uma rota. */
@@ -10,7 +11,7 @@ export function RouteError() {
         {t.error.title}
       </h1>
       <p className="mt-4 text-muted">{t.error.body}</p>
-      <Link to="/" className="mt-6 inline-block font-semibold text-accent underline underline-offset-4">
+      <Link to="/" className={`${textLink} mt-6 inline-block`}>
         {t.notFound.back}
       </Link>
     </section>

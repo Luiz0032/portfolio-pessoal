@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 import { Link } from 'react-router'
+import { ArrowMarker } from '@/components/case/diagrams/primitives'
 import { textLink } from '@/components/ui/styles'
 import { t } from '@/i18n'
 
@@ -27,12 +28,8 @@ export function HeroFlow() {
     <figure className="m-0 rounded-card border border-line bg-surface p-5 shadow-md md:p-6">
       <svg viewBox="0 0 660 290" role="img" aria-label={label} className="hidden h-auto w-full sm:block">
         <defs>
-          <marker id="hero-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0 0 L10 5 L0 10 z" className="fill-muted" />
-          </marker>
-          <marker id="hero-arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0 0 L10 5 L0 10 z" className="fill-accent" />
-          </marker>
+          <ArrowMarker id="hero-arrow" />
+          <ArrowMarker id="hero-arrow-accent" accent />
         </defs>
 
         {edges.map((d, i) => (

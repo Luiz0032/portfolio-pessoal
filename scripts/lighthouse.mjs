@@ -5,14 +5,14 @@
 import { exec } from 'node:child_process'
 import { mkdir, readFile } from 'node:fs/promises'
 import { promisify } from 'node:util'
-import { caseStudyPaths } from '../src/data/projects.ts'
+import { publicPaths } from '../src/data/projects.ts'
 import { serve } from './lib/serve.mjs'
 
 const run = promisify(exec)
 const LIGHTHOUSE = 'lighthouse@13.5.0'
 const EDGE = process.env.CHROME_PATH ?? 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
 const MIN = 90
-const routes = ['/', '/curriculo', ...caseStudyPaths()]
+const routes = publicPaths()
 const categories = ['performance', 'accessibility', 'best-practices', 'seo']
 
 await mkdir('.lighthouse', { recursive: true })

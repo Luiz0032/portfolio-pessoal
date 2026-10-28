@@ -4,15 +4,12 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import sharp from 'sharp'
-import { caseStudyPaths } from '../src/data/projects.ts'
+import { publicPaths } from '../src/data/projects.ts'
 import { siteUrl } from '../src/data/site.ts'
 
 const root = 'dist/client'
-const routes = [
-  { path: '/', schema: 'Person' },
-  { path: '/curriculo', schema: 'Person' },
-  ...caseStudyPaths().map((path) => ({ path, schema: 'CreativeWork' })),
-]
+// Tipo de JSON-LD esperado: estudos de caso são CreativeWork; as demais páginas, Person.
+const routes = publicPaths().map((path) => ({ path, schema: path.startsWith('/projetos/') ? 'CreativeWork' : 'Person' }))
 const PHONE = /99910-?0032|5547999100032/
 
 const failures = []

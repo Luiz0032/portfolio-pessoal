@@ -50,22 +50,26 @@ async function isFresh(output, source) {
  * `source` é o arquivo original usado para saber se a saída está atualizada (no pôster, o vídeo).
  */
 async function responsive(input, key, produced, source = input) {
-  const { width, height } = await sharp(input).metadata()
-  const widths = WIDTHS.filter((w) => w < width)
-  widths.push(Math.min(width, WIDTHS.at(-1)))
-  for (const w of [...new Set(widths)]) {
-    for (const [format, options] of [
-      ['avif', { quality: 50, effort: 4 }],
-      ['webp', { quality: 78 }],
-    ]) {
-      const out = join(paths.img, `${key}-${w}.${format}`)
-      produced.add(out)
-      if (await isFresh(out, source)) continue
-      await mkdir(dirname(out), { recursive: true })
-      await sharp(input).resize({ width: w }).toFormat(format, options).toFile(out)
-    }
-  }
-  return { kind: 'image', width, height, widths: [...new Set(widths)].sort((a, b) => a - b) }
+  // Decodifica uma vez; cada saída usa um clone e todas são codificadas em paralelo.
+  const base = sharp(input)
+  const { width, height } = await base.metadata()
+  const widths = [...new Set([...WIDTHS.filter((w) => w < width), Math.min(width, WIDTHS.at(-1))])].sort((a, b) => a - b)
+  await mkdir(dirname(join(paths.img, key)), { recursive: true })
+  const formats = [
+    ['avif', { quality: 50, effort: 4 }],
+    ['webp', { quality: 78 }],
+  ]
+  await Promise.all(
+    widths.flatMap((w) =>
+      formats.map(async ([format, options]) => {
+        const out = join(paths.img, `${key}-${w}.${format}`)
+        produced.add(out)
+        if (await isFresh(out, source)) return
+        await base.clone().resize({ width: w }).toFormat(format, options).toFile(out)
+      }),
+    ),
+  )
+  return { kind: 'image', width, height, widths }
 }
 
 async function video(input, key, produced) {
@@ -77,12 +81,16 @@ async function video(input, key, produced) {
   // Redução leve de ruído (GIFs têm pontilhado que pesa na compressão), largura par
   // e no máximo VIDEO_MAX_WIDTH; sem áudio.
   const scale = `hqdn3d=3:2:4:4,scale='min(${VIDEO_MAX_WIDTH},iw)':-2:flags=lanczos,format=yuv420p`
-  if (!(await isFresh(mp4, input))) {
-    await run(ffmpegPath, ['-y', '-i', input, '-vf', scale, '-c:v', 'libx264', '-preset', 'slow', '-crf', '30', '-movflags', '+faststart', '-an', mp4])
-  }
-  if (!(await isFresh(webm, input))) {
-    await run(ffmpegPath, ['-y', '-i', input, '-vf', scale, '-c:v', 'libvpx-vp9', '-crf', '38', '-b:v', '0', '-row-mt', '1', '-an', webm])
-  }
+  // As duas codificações são independentes: rodam ao mesmo tempo.
+  const encodes = [
+    [mp4, ['-c:v', 'libx264', '-preset', 'slow', '-crf', '30', '-movflags', '+faststart']],
+    [webm, ['-c:v', 'libvpx-vp9', '-crf', '38', '-b:v', '0', '-row-mt', '1']],
+  ]
+  await Promise.all(
+    encodes.map(async ([out, codec]) => {
+      if (!(await isFresh(out, input))) await run(ffmpegPath, ['-y', '-i', input, '-vf', scale, ...codec, '-an', out])
+    }),
+  )
 
   // Pôster: primeiro quadro extraído pelo ffmpeg (funciona para GIF, MP4 e MOV), em versões responsivas.
   const { stdout: firstFrame } = await run(

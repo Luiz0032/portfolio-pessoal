@@ -3,7 +3,7 @@ import { PrintButton } from '@/components/PrintButton'
 import { experience, independent, languages, printPhone, type Experience } from '@/data/experience'
 import { projects } from '@/data/projects'
 import { profile } from '@/data/profile'
-import { siteUrl } from '@/data/site'
+import { displayUrl, ogImageKey, siteUrl } from '@/data/site'
 import { skills } from '@/data/skills'
 import { t } from '@/i18n'
 import { pageMeta } from '@/seo/meta'
@@ -15,11 +15,9 @@ export const meta = () =>
     description: t.meta.resumeDescription,
     path: '/curriculo',
     type: 'profile',
-    ogImage: 'curriculo',
+    ogImage: ogImageKey.resume,
     jsonLd: [personSchema()],
   })
-
-const display = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')
 
 function Part({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -59,9 +57,9 @@ export default function Curriculo() {
   const contacts = [
     { label: profile.contacts.email, href: `mailto:${profile.contacts.email}` },
     { label: printPhone.display, href: printPhone.href, printOnly: true },
-    { label: display(profile.contacts.linkedin), href: profile.contacts.linkedin },
-    { label: display(profile.contacts.github), href: profile.contacts.github },
-    { label: display(siteUrl), href: siteUrl, printOnly: true },
+    { label: displayUrl(profile.contacts.linkedin), href: profile.contacts.linkedin },
+    { label: displayUrl(profile.contacts.github), href: profile.contacts.github },
+    { label: displayUrl(siteUrl), href: siteUrl, printOnly: true },
   ]
 
   return (
@@ -106,19 +104,20 @@ export default function Curriculo() {
 
         <Part title={t.resume.projects}>
           <ul className="space-y-4 text-sm print:space-y-1">
-            {selected.map((project) => (
-              <li key={project.slug} className="break-inside-avoid">
-                <p className="font-semibold">
-                  {project.title}
-                  {(project.links.code ?? project.links.demo) && (
-                    <span className="font-normal text-muted"> · {display((project.links.code ?? project.links.demo)!)}</span>
-                  )}
-                </p>
-                {/* No papel, um projeto por linha (nome e link) para o currículo caber em 2 páginas. */}
-                <p className="mt-0.5 print:hidden">{project.summary}</p>
-                <p className="mt-0.5 text-xs text-muted print:hidden">{project.stack.join(', ')}</p>
-              </li>
-            ))}
+            {selected.map((project) => {
+              const link = project.links.code ?? project.links.demo
+              return (
+                <li key={project.slug} className="break-inside-avoid">
+                  <p className="font-semibold">
+                    {project.title}
+                    {link && <span className="font-normal text-muted"> · {displayUrl(link)}</span>}
+                  </p>
+                  {/* No papel, um projeto por linha (nome e link) para o currículo caber em 2 páginas. */}
+                  <p className="mt-0.5 print:hidden">{project.summary}</p>
+                  <p className="mt-0.5 text-xs text-muted print:hidden">{project.stack.join(', ')}</p>
+                </li>
+              )
+            })}
           </ul>
         </Part>
 

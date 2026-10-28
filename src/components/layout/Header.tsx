@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router'
 import { profile } from '@/data/profile'
 import { t } from '@/i18n'
 import { CloseIcon, MenuIcon } from '@/components/ui/Icons'
+import { iconButton } from '@/components/ui/styles'
 import { MobileMenu } from './MobileMenu'
 import { NavItemLink } from './NavItemLink'
 import { ThemeToggle } from './ThemeToggle'
@@ -52,7 +53,7 @@ export function Header() {
             aria-controls={MENU_ID}
             aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
             onClick={() => setOpenAt(open ? null : location.key)}
-            className="inline-flex size-10 items-center justify-center rounded-full border border-line-strong bg-surface md:hidden"
+            className={`${iconButton} md:hidden`}
           >
             {open ? <CloseIcon /> : <MenuIcon />}
           </button>

@@ -52,10 +52,10 @@ export function Arrow({ d, id, both, dashed }: { d: string; id: string; both?: b
   )
 }
 
-export function ArrowMarker({ id }: { id: string }) {
+export function ArrowMarker({ id, accent }: { id: string; accent?: boolean }) {
   return (
     <marker id={id} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0 0 L10 5 L0 10 z" className="fill-muted" />
+      <path d="M0 0 L10 5 L0 10 z" className={accent ? 'fill-accent' : 'fill-muted'} />
     </marker>
   )
 }

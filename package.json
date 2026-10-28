@@ -7,7 +7,7 @@
     "dev": "react-router dev",
     "build": "react-router typegen && tsc -b && node scripts/sitemap.mjs && react-router build",
     "lint": "eslint . --max-warnings 0",
-    "preview": "vite preview --outDir dist/client",
+    "preview": "node scripts/preview.mjs",
     "typecheck": "react-router typegen && tsc -b",
     "images": "node scripts/images.mjs",
     "icons": "node scripts/icons.mjs",

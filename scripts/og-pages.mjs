@@ -5,24 +5,22 @@
 
 import { writeFile } from 'node:fs/promises'
 import { profile } from '../src/data/profile.ts'
-import { projects } from '../src/data/projects.ts'
-import { siteUrl } from '../src/data/site.ts'
+import { caseStudies, caseStudyPath } from '../src/data/projects.ts'
+import { displayUrl, ogImageKey, siteUrl } from '../src/data/site.ts'
 
-const domain = siteUrl.replace(/^https?:\/\//, '')
+const domain = displayUrl(siteUrl)
 
 const pages = [
-  { key: 'home', path: '/', kind: 'home', title: profile.name, subtitle: profile.role },
-  { key: 'curriculo', path: '/curriculo', kind: 'cv', title: 'Currículo', subtitle: `${profile.name} · ${profile.role}` },
-  ...projects
-    .filter((p) => p.caseStudy)
-    .map((p) => ({
-      key: `projeto-${p.slug}`,
-      path: `/projetos/${p.slug}`,
-      kind: 'case',
-      title: p.title,
-      subtitle: p.summary,
-      facts: (p.facts ?? []).slice(0, 4),
-    })),
+  { key: ogImageKey.home, path: '/', kind: 'home', title: profile.name, subtitle: profile.role },
+  { key: ogImageKey.resume, path: '/curriculo', kind: 'cv', title: 'Currículo', subtitle: `${profile.name} · ${profile.role}` },
+  ...caseStudies.map((p) => ({
+    key: ogImageKey.caseStudy(p.slug),
+    path: caseStudyPath(p.slug),
+    kind: 'case',
+    title: p.title,
+    subtitle: p.summary,
+    facts: (p.facts ?? []).slice(0, 4),
+  })),
 ]
 
 await writeFile('scripts/og/pages.json', `${JSON.stringify({ domain, name: profile.name, pages }, null, 2)}\n`)
