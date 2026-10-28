@@ -51,6 +51,8 @@ for (const { path, schema } of routes) {
     check(width === 1200 && height === 630, `${path}: og:image com ${width}×${height}`)
   }
   check(/<html[^>]+lang="pt-BR"/.test(html), `${path}: sem lang="pt-BR"`)
+  const csp = attr(html, /<meta http-equiv="Content-Security-Policy" content="([^"]+)"/) ?? ''
+  check(/script-src 'self' 'sha256-/.test(csp) && !/script-src[^;]*'unsafe-inline'/.test(csp), `${path}: CSP sem hashes ou com 'unsafe-inline' em script-src`)
   check((html.match(/<h1[\s>]/g) ?? []).length === 1, `${path}: deve ter exatamente um <h1>`)
 
   const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => m[1])
