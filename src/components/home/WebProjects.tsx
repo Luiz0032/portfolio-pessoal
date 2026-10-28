@@ -15,6 +15,7 @@ export function WebProjects() {
           <li key={project.slug}>
             <article aria-labelledby={`web-${project.slug}`} className="flex h-full flex-col gap-5">
               <Shot
+                cover={project}
                 shot={project.image ?? { alt: `Página principal de ${project.title}` }}
                 sizes="(min-width: 1024px) 22rem, (min-width: 768px) 46vw, 92vw"
               />

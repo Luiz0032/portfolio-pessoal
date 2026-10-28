@@ -9,8 +9,10 @@ import { ProjectLinks } from '@/components/ui/ProjectLinks'
 import { ScrollRegion } from '@/components/ui/ScrollRegion'
 import { Shot } from '@/components/ui/Shot'
 import { TagList } from '@/components/ui/TagList'
+import { showTodos } from '@/components/ui/showTodos'
 import { Todo } from '@/components/ui/Todo'
 import { textLink } from '@/components/ui/styles'
+import { hasMedia } from '@/data/media'
 import { caseStudyPath, findCaseStudy, nextCaseStudy } from '@/data/projects'
 import { ogImageKey } from '@/data/site'
 import { t } from '@/i18n'
@@ -49,7 +51,9 @@ export default function CaseStudy() {
   if (!project?.caseStudy) return <NotFoundView />
 
   const study = project.caseStudy
-  const [cover, ...screens] = study.gallery
+  const [cover, ...allScreens] = study.gallery
+  // Na galeria de produção entram só os prints reais; os que faltam aparecem como TODO em desenvolvimento.
+  const screens = showTodos ? allScreens : allScreens.filter(hasMedia)
   const architecture = architectureDiagrams[project.slug]
   const next = nextCaseStudy(project)
 
@@ -72,17 +76,22 @@ export default function CaseStudy() {
             {project.facts && <Facts facts={project.facts} />}
             <TagList items={project.stack} />
           </div>
-          {cover && <Shot shot={cover} priority sizes="(min-width: 1024px) 40rem, 92vw" />}
+          {cover && <Shot shot={cover} cover={project} priority sizes="(min-width: 1024px) 40rem, 92vw" />}
         </div>
       </header>
 
-      <Block id="problema" title={t.caseStudy.problem}>
-        {study.problem ? <p className="max-w-prose">{study.problem}</p> : <Todo>{t.caseStudy.problemTodo}</Todo>}
-      </Block>
+      {/* Sem conteúdo, a seção inteira só aparece em desenvolvimento (com o TODO). */}
+      {(study.problem || showTodos) && (
+        <Block id="problema" title={t.caseStudy.problem}>
+          {study.problem ? <p className="max-w-prose">{study.problem}</p> : <Todo>{t.caseStudy.problemTodo}</Todo>}
+        </Block>
+      )}
 
-      <Block id="antes-depois" title={t.caseStudy.beforeAfter}>
-        {study.beforeAfter.length > 0 ? <BeforeAfter rows={study.beforeAfter} /> : <Todo>{t.caseStudy.beforeAfterTodo}</Todo>}
-      </Block>
+      {(study.beforeAfter.length > 0 || showTodos) && (
+        <Block id="antes-depois" title={t.caseStudy.beforeAfter}>
+          {study.beforeAfter.length > 0 ? <BeforeAfter rows={study.beforeAfter} /> : <Todo>{t.caseStudy.beforeAfterTodo}</Todo>}
+        </Block>
+      )}
 
       <Block id="quem-usa" title={t.caseStudy.roles}>
         <dl className="grid gap-6 sm:grid-cols-2">

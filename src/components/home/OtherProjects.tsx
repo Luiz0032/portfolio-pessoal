@@ -1,5 +1,6 @@
 import { ProjectLinks } from '@/components/ui/ProjectLinks'
 import { Section } from '@/components/ui/Section'
+import { Todo } from '@/components/ui/Todo'
 import { projectsByTier } from '@/data/projects'
 import { t } from '@/i18n'
 
@@ -17,11 +18,7 @@ export function OtherProjects() {
             </div>
             <p className="text-sm text-muted">{project.summary}</p>
             <p className="text-xs text-muted">{project.stack.join(', ')}</p>
-            {project.todo && (
-              <p className="text-xs text-muted">
-                <strong className="font-semibold text-ink">TODO:</strong> {project.todo}
-              </p>
-            )}
+            {project.todo && <Todo>{project.todo}</Todo>}
             <div className="mt-auto pt-2">
               <ProjectLinks project={project} />
             </div>
